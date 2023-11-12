@@ -39,6 +39,9 @@ std::vector<std::string> WWF::ingest_args( int argc, char* argv[]) {
     // aggregate letters to pass to permutations generator
     std::string letters_input;
 
+    // indicate presence of 1 oe 2 blank tiles
+    int blanks = 0;
+
     
     try {
         //        po::options_description desc("Allowed options");
@@ -85,10 +88,12 @@ std::vector<std::string> WWF::ingest_args( int argc, char* argv[]) {
 
         if (vm.count("blank1") ) {
             std::cout << "There is one blank character\n";
+            blanks = 1;
         }
 
         if (vm.count("blank2") ) {
             std::cout << "There are two blank characters\n";
+            blanks = 2;
         }
 
         if (vm.count("rack") ) {
@@ -117,7 +122,9 @@ std::vector<std::string> WWF::ingest_args( int argc, char* argv[]) {
     }
     std::cout << "Letters in: " << letters_input << "\n";
 
-    std::vector<std::string> Permutations = WWF::create_permutations( letters_input );
+//    std::vector<std::string> Permutations = WWF::create_permutations( letters_input );
+    std::vector<std::string> Permutations;
+    Permutations = WWF::create_permutations( letters_input, blanks );
 
     std::cout << Permutations.size() << " Permutations returned from \"" << letters_input << "\".\n";
 

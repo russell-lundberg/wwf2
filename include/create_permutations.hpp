@@ -9,7 +9,8 @@ namespace WWF
 
 {
 
-std::vector<std::string> create_permutations( std::string letters );
+//std::vector<std::string> create_permutations( std::string letters );
+std::vector<std::string> create_permutations( std::string, int );
 
 std::string permutation( std::string letters, int perm_index );
 

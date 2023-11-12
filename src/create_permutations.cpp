@@ -16,7 +16,8 @@ bool cmp(const std::string lhs, const std::string rhs) {
 
 namespace WWF {
 
-std::vector<std::string> create_permutations( std::string letters )
+//std::vector<std::string> create_permutations( std::string letters )
+std::vector<std::string> create_permutations( std::string letters, int blanks )
 {
 //    std::string letters = "abcdefg";
     
@@ -28,7 +29,38 @@ std::vector<std::string> create_permutations( std::string letters )
     std::set<std::string> final_s;
 
     // the trailing "_s" indicates return type "set"
-    perm_s = WWF::all_substrings_s( letters );
+//    perm_s = WWF::all_substrings_s( letters );
+
+    std::string alphabet = "abcdefghijklmnopqrstuvwxyz";
+    if ( blanks > 0 ) {
+    
+        int j = 0;
+        for ( auto letter1 : alphabet ) {
+            std::string tmp1 = letters + letter1;
+            if ( blanks == 2 ) {
+                for ( auto letter2 : alphabet ) {
+                    std::string tmp2 = tmp1 + letter2;
+                    std::set<std::string> this_time = WWF::all_substrings_s( tmp2 );
+                    for ( auto elem : this_time ) {
+                        perm_s.insert(elem);
+                    }
+//                    std::cout << "tmp1.tmp2: " << tmp1 << "." << tmp2 << "\n";
+                    j++;
+                }
+            }
+            else {
+                std::set<std::string> this_time = WWF::all_substrings_s( tmp1 );
+                for ( auto elem : this_time ) {
+                    perm_s.insert(elem);
+                }
+//                std::cout << "tmp1: " << tmp1 << "\n";
+                    j++;
+            }
+        }
+        std::cout << j << " loops processed\n.";
+    }
+
+
 
     std::cout << perm_s.size() << " substrings generated.\n";
 
