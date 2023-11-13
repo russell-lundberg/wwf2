@@ -59,6 +59,9 @@ std::vector<std::string> create_permutations( std::string letters, int blanks )
         }
         std::cout << j << " loops processed\n.";
     }
+    else {
+                perm_s = WWF::all_substrings_s( letters );
+    }
 
 
 
