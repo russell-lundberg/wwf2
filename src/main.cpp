@@ -44,7 +44,11 @@ int main(int argc, char *argv[])
 
     std::set<std::string> Dictionary = WWF::get_dictionary();
     // define the candidates structure, for permutations found in the dictionary
+    // because the permutations are already sorted, sorting is not
+    // required here
     std::vector<std::string> valid_words;
+    // let's reverse the sort by defining a map that sorts on descending
+    // value
 
     for ( auto word : Permutations ) {
         if ( Dictionary.find(word) != Dictionary.end() ) {
