@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
     // would be a dispatch function takine the return value of ingest_options()
     // as an input. That return value s/b an associative array
 
+    /*
     std::string extension;
     // switch statement might be better. Also, 
     for (int i = 1; i < argc; ++i) {
@@ -39,6 +40,7 @@ int main(int argc, char *argv[])
 //            sources.push_back(argv[i]);
         }
     }
+    */
 
     std::set<std::string> Dictionary = WWF::get_dictionary();
     // define the candidates structure, for permutations found in the dictionary
