@@ -56,9 +56,15 @@ int main(int argc, char *argv[])
         }
     }
 
+    for ( auto it = valid_words.rbegin(); it != valid_words.rend(); it++ ) {
+        std::cout << *it << "\n";
+    }
+
+    /*
     for ( std::string word : valid_words ) {
         std::cout << word << "\n";
     }
+    */
     std::cout << "there are " << valid_words.size() << " valid words.\n";
 
     return 0;
