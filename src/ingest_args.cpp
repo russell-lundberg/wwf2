@@ -26,7 +26,17 @@ std::ostream &std::operator<<(ostream &os, const vector<T> &v)
 {
     copy(v.begin(), v.end(), ostream_iterator<T>(os, " "));
     return os;
+} // end operator()
+
+// copied with thanks from cppreference.com, std::tolower()
+std::string str_tolower(std::string s)
+{
+    std::transform(s.begin(), s.end(), s.begin(), 
+                   [](unsigned char c){ return std::tolower(c); } // correct
+                  );
+    return s;
 }
+
 
 std::vector<std::string> WWF::ingest_args( int argc, char* argv[]) {
 
@@ -101,13 +111,22 @@ std::vector<std::string> WWF::ingest_args( int argc, char* argv[]) {
             std::cout << "Rack letters used to make words: "
                  << vm["rack"].as<std::string>() << "\n";
 
-                letters_input += vm["rack"].as<std::string>();
+                 std::string lowered = str_tolower( vm["rack"].as<std::string>() );
+//                 std::cout << "case-lowered result: " << lowered << "\n";
+
+                letters_input += lowered;
+//                letters_input += vm["rack"].as<std::string>();
             
 
             if (vm.count("extend") ) {
                 std::cout << "Board letters to combine with rack letters: "
                      << vm["extend"].as<std::string>() << "\n";
-                letters_input += vm["extend"].as<std::string>();
+
+                 std::string lowered = str_tolower( vm["extend"].as<std::string>() );
+//                 std::cout << "case-lowered result: " << lowered << "\n";
+
+                letters_input += lowered;
+//                letters_input += vm["extend"].as<std::string>();
             }
         }
 
