@@ -5,6 +5,7 @@
 #include <vector>
 #include <boost/math/special_functions/factorials.hpp>
 #include "create_permutations.hpp"
+#include "util.hpp"
 #include <map>
 #include <cstring>
 

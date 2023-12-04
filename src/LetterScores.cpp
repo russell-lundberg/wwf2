@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <unordered_map>
+#include <map>
 #include "util.hpp"
 
 /*
@@ -11,10 +11,9 @@
  */
 
 //unordered_map assign_letter_scores () {
+std::map<std::string,int> WWF::LetterScores() {
 
-void WWF::LetterScore() {
-
-	std::unordered_map<std::string,int> LetterScore;
+	std::map<std::string,int> LetterScore;
 
     LetterScore.insert(std::make_pair("blank",0));
     LetterScore.insert(std::make_pair("a",1));
@@ -50,7 +49,7 @@ void WWF::LetterScore() {
 		    << "\n";
     }
 
-//    return LetterScore;
+    return LetterScore;
 } // end main()
 
 /*
