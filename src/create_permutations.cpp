@@ -7,6 +7,7 @@
 #include "create_permutations.hpp"
 #include <map>
 #include <cstring>
+#include "util.hpp"
 
 
 bool cmp(const std::string lhs, const std::string rhs) {
@@ -16,14 +17,43 @@ bool cmp(const std::string lhs, const std::string rhs) {
 
 namespace WWF {
 
-//std::vector<std::string> create_permutations( std::string letters )
-std::vector<std::string> create_permutations( std::string letters, int blanks )
+// function to associate value with letters
+std::map<std::string,int> weight_letters( std::string letters, std::string blank_place)
 {
-//    std::string letters = "abcdefg";
+    // get the letter values hash
+    std::map<std::string,int> scores = WWF::LetterScores();
+    // use a map container to associate 0 value to letter derived from blank
+    std::map<std::string,int> valued;
+    for ( auto letter : letters ) {
+        tmp1.insert(letter, scores(letter));
+    }
+    tmp1.insert(blank_place,0);
+    // map container complete
+    return valued;
+}
+
+int sum_score(std::map<std::string,int> letters)
+{
+    int word_score = 0;
+    for (auto letter : letters ) {
+        word_score += letter.second;
+    }
+    return word_score;
+} // end sum_score()
+
+
+
+//std::vector<std::string> create_permutations( std::string letters )
+std::map<std::string,int> create_permutations_m( std::string letters, int blanks )
+{
+
+    // load the letter scores
+    std::map<std::string,int> scores = WWF::LetterScores();
     
     // container for permutations
     // intermidiate storage of permutations in set
     std::set<std::string> perm_s;
+    std::map<std::string, int> perm_m;
 
     // final storage of permutations in set
     std::set<std::string> final_s;
@@ -36,13 +66,25 @@ std::vector<std::string> create_permutations( std::string letters, int blanks )
     
         int j = 0;
         for ( auto letter1 : alphabet ) {
-            std::string tmp1 = letters + letter1;
+//            std::string tmp1 = letters + letter1;
+            // associate value with each letter
+            std::map<std::string,int> tmp1 = weight_letters(letters, letter1);
+
+            /*
+            * do i really need to sling around map containers? If possible, 
+            * I might be able to score the substrings immediately after they
+            * are generated. 
+            */
             if ( blanks == 2 ) {
                 for ( auto letter2 : alphabet ) {
-                    std::string tmp2 = tmp1 + letter2;
-                    std::set<std::string> this_time = WWF::all_substrings_s( tmp2 );
+//                    std::string tmp2 = tmp1 + letter2;
+                    tmp1.insert(letter2,0);
+//                    std::set<std::string> this_time = WWF::all_substrings_s( tmp2 );
+                    std::set<std::string> this_time = WWF::all_substrings_s( tmp1 );
                     for ( auto elem : this_time ) {
-                        perm_s.insert(elem);
+//                        perm_s.insert(elem);
+                        int score = sum_score(elem);
+                        perm_m.insert(elem,score);
                     }
 //                    std::cout << "tmp1.tmp2: " << tmp1 << "." << tmp2 << "\n";
                     j++;
@@ -62,8 +104,6 @@ std::vector<std::string> create_permutations( std::string letters, int blanks )
     else {
                 perm_s = WWF::all_substrings_s( letters );
     }
-
-
 
     std::cout << perm_s.size() << " substrings generated.\n";
 
@@ -125,7 +165,118 @@ std::vector<std::string> create_permutations( std::string letters, int blanks )
     std::cout << total << " permutations generated.\n";
 
     return words;
-}
+} // end of create_permutations_m()
+
+
+std::vector<std::string> create_permutations( std::string letters, int blanks )
+{
+
+    // load the letter scores
+    std::map<std::string,int> scores = WWF::LetterScores();
+    
+    // container for permutations
+    // intermidiate storage of permutations in set
+    std::set<std::string> perm_s;
+
+    // final storage of permutations in set
+    std::set<std::string> final_s;
+
+    // the trailing "_s" indicates return type "set"
+//    perm_s = WWF::all_substrings_s( letters );
+
+    std::string alphabet = "abcdefghijklmnopqrstuvwxyz";
+    if ( blanks > 0 ) {
+    
+        int j = 0;
+        for ( auto letter1 : alphabet ) {
+            std::string tmp1 = letters + letter1;
+            if ( blanks == 2 ) {
+                for ( auto letter2 : alphabet ) {
+                    std::string tmp2 = tmp1 + letter2;
+                    std::set<std::string> this_time = WWF::all_substrings_s( tmp2 );
+                    for ( auto elem : this_time ) {
+                        perm_s.insert(elem);
+                    }
+//                    std::cout << "tmp1.tmp2: " << tmp1 << "." << tmp2 << "\n";
+                    j++;
+                }
+            }
+            else {
+                std::set<std::string> this_time = WWF::all_substrings_s( tmp1 );
+                for ( auto elem : this_time ) {
+                    perm_s.insert(elem);
+                }
+//                std::cout << "tmp1: " << tmp1 << "\n";
+                    j++;
+            }
+        }
+        std::cout << j << " loops processed\n.";
+    }
+    else {
+                perm_s = WWF::all_substrings_s( letters );
+    }
+
+    std::cout << perm_s.size() << " substrings generated.\n";
+
+    // loop through all substrings feeding each to 
+    // all_permutations().
+    std::set<std::string>::iterator itr;
+    for ( itr = perm_s.begin(); itr != perm_s.end(); itr++  ) {
+        std::vector<std::string> wordlist;
+        wordlist = WWF::all_permutations( *itr );
+        for ( auto elem : wordlist ) {
+            if (elem.size() == 0 ) continue;
+            final_s.insert(elem);
+        }
+    }
+    std::cout << final_s.size() << " permutations generated.\n";
+
+    // create a map for reporting statistics
+    std::map<int, int> stats;
+
+    // unsigned long int is the implicit type of "size_type".
+    // needed here to silence a warning
+    for ( unsigned long int i = 1 ; i <= letters.size() ; i++ ) {
+        stats[i] = 0;
+    }
+
+    // iterate the set container into a vector "words"
+    std::vector<std::string> words;
+//    for ( auto elem : perm_s ) {
+    for ( auto elem : final_s ) {
+        if (elem.size() == 0 ) continue;
+        words.push_back(elem);
+    }
+    // now sort the vector by string length
+    std::sort(words.begin(),
+              words.end(),
+              cmp );
+
+    // this loop prints the unique permutations by
+    // descending length, and populates the stats hash
+//    int i = 1;
+    for ( auto elem : words) {
+        // printf() wants a char type for strings. So 
+        // elem must be converted using cstring library
+//        char temp[ elem.size() +1];
+//        strcpy(temp, elem.c_str());
+//        std::printf("%2i: %s\n", i++, temp);
+        stats[ elem.size() ] += 1;
+    }
+
+    std::cout << "\n";
+
+    // print the stats container
+    std::map<int,int>::iterator pos;
+    int total = 0;
+    for ( pos = stats.begin() ; pos != stats.end() ; pos++ ) {
+       std::cout << pos->first << ": " << pos->second << "\n";
+       total += pos->second;
+    }
+    std::cout << total << " permutations generated.\n";
+
+    return words;
+} // end of create_permutations()
 
 
 std::string permutation( std::string word, int perm_idx )

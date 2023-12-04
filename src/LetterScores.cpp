@@ -9,10 +9,13 @@
  *
  */
 
-std::map<std::string,int> WWF::LetterScore() {
+namespace WWF {
+
+    std::map<std::string,int> LetterScores() {
 
 	std::map<std::string,int> LetterScore;
 
+    // prolly don't need to define blank. Can simply assign 0 when used
     LetterScore.insert(std::make_pair("blank",0));
     LetterScore.insert(std::make_pair("a",1));
     LetterScore.insert(std::make_pair("b",4));
@@ -41,13 +44,15 @@ std::map<std::string,int> WWF::LetterScore() {
     LetterScore.insert(std::make_pair("y",3));
     LetterScore.insert(std::make_pair("z",10));
 
-    /*
+   
     for ( const auto& elem : LetterScore ) {
 	    std::cout << "Tile: " << elem.first
 		    << ", Value: " << elem.second
 		    << "\n";
     }
-    */
+    
 
     return LetterScore;
 } // end main()
+
+} // close the namespace declaration

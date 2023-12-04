@@ -14,7 +14,7 @@ void not_implemented(std::string option);
 
 std::set<std::string> get_dictionary();
 
-std::map<std::string,int> LetterScore();
+std::map<std::string,int> LetterScores();
 
 std::vector<std::string> ingest_args( int argc, char* argv[] );
 

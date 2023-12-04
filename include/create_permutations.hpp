@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <set>
+#include <map>
 
 namespace WWF 
 
@@ -11,6 +12,7 @@ namespace WWF
 
 //std::vector<std::string> create_permutations( std::string letters );
 std::vector<std::string> create_permutations( std::string, int );
+std::map<std::string,int> create_permutations_m( std::string, int );
 
 std::string permutation( std::string letters, int perm_index );
 
