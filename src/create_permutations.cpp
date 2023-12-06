@@ -21,6 +21,7 @@ namespace WWF {
 std::vector<std::string> create_permutations( std::string letters, int blanks )
 {
 //    std::string letters = "abcdefg";
+    std::cout << "blank value is " << blanks << "\n";
     
     // container for permutations
     // intermidiate storage of permutations in set
@@ -32,7 +33,10 @@ std::vector<std::string> create_permutations( std::string letters, int blanks )
     // the trailing "_s" indicates return type "set"
 //    perm_s = WWF::all_substrings_s( letters );
 
-    std::string alphabet = "abcdefghijklmnopqrstuvwxyz";
+    
+    // all uppercase to distinguish "blank" letter from letters having 
+    // non-zero value
+    std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     if ( blanks > 0 ) {
     
         int j = 0;
@@ -53,6 +57,7 @@ std::vector<std::string> create_permutations( std::string letters, int blanks )
                 std::set<std::string> this_time = WWF::all_substrings_s( tmp1 );
                 for ( auto elem : this_time ) {
                     perm_s.insert(elem);
+                std::cout << "elem: " << elem << "\n";
                 }
 //                std::cout << "tmp1: " << tmp1 << "\n";
                     j++;
