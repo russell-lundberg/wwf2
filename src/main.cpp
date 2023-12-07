@@ -3,6 +3,42 @@
 #include <fstream> // get_dictionary()
 #include "create_permutations.hpp"
 #include "util.hpp"
+#include <map>
+#include <utility>
+#include <set>
+
+// Comparison function for sorting the
+// set by increasing order of its pair's
+// second value
+struct comp {
+    template <typename T>
+ 
+    // Comparator function
+    bool operator()(const T& l, const T& r) const
+    {
+        if (l.second != r.second) {
+            return l.second < r.second;
+        }
+        return l.first < r.first;
+    }
+};
+ 
+// Function to sort the map according
+// to value in a (key-value) pairs
+void sort(std::map<std::string, int>& M)
+{
+ 
+    // Declare set of pairs and insert
+    // pairs according to the comparator
+    // function comp()
+    std::set<std::pair<std::string, int>, comp> S(M.begin(), M.end());
+ 
+    // Print the sorted value
+    for (auto& it : S) {
+        std::cout << it.first << ' ' << it.second << "\n";
+    }
+} // end sort()
+
 
 
 int main(int argc, char *argv[])
@@ -14,53 +50,44 @@ int main(int argc, char *argv[])
     // would be a dispatch function takine the return value of ingest_options()
     // as an input. That return value s/b an associative array
 
-    /*
-    std::string extension;
-    // switch statement might be better. Also, 
-    for (int i = 1; i < argc; ++i) {
-        std::string arg = argv[i];
-        if ((arg == "-h") || (arg == "--help")) {
-            WWF::show_usage(argv[i]);
-        } else if ((arg == "-e") || (arg == "--extension")) {
-            WWF::not_implemented(argv[i]);
-        } else if ((arg == "-x") || (arg == "--regex")) {
-            WWF::not_implemented(arg);
-        } else if ((arg == "-b") || (arg == "--blank")) {
-            WWF::not_implemented(arg);
-        } else if ((arg == "-B") || (arg == "--blank2`")) {
-            WWF::not_implemented(arg);
-        } else if ((arg == "-d") || (arg == "--dictionary")) {
-            // -d <regex> arg, to search dictionary for the inputted regex
-            WWF::not_implemented(arg);
-//            WWF::get_dictionary();
-        } else if ((arg == "-l") || (arg == "--length")) {
-            // -l 
-            WWF::not_implemented(arg);
-        } else {
-//            sources.push_back(argv[i]);
-        }
-    }
-    */
-
     std::set<std::string> Dictionary = WWF::get_dictionary();
+
     // define the candidates structure, for permutations found in the dictionary
     // because the permutations are already sorted, sorting is not
-    // required here
+    // required here. But the permutations must first be lower-cased to match 
+    // in the disctionary
+    // need to score words before searcing dictionary, so that the highest scored
+    // word is selected.
     std::vector<std::string> valid_words;
+
     // let's reverse the sort by defining a map that sorts on descending
     // value
-
     for ( auto word : Permutations ) {
-        if ( Dictionary.find(word) != Dictionary.end() ) {
+        // must find the word in lower case
+        std::string word_lower = {};
+        for ( const char ch : word ) { 
+            word_lower += std::tolower(ch, std::locale());
+        }
+        if ( Dictionary.find(word_lower) != Dictionary.end() ) {
             valid_words.push_back(word);
         }
     }
 
+    // score all the dictionary words in a map container
+    std::map<std::string,int> Scored_Words;
+    for ( auto elem : valid_words ) {
+        std::map<std::string,int> Scored_Word = WWF::Score_Word( elem );
+        Scored_Words.insert( Scored_Word.begin(), Scored_Word.end() );
+    }
+
+    // sort the scored words by ascending score
+    sort( Scored_Words );
+
+    /*
     for ( auto it = valid_words.rbegin(); it != valid_words.rend(); it++ ) {
         std::cout << *it << "\n";
     }
 
-    /*
     for ( std::string word : valid_words ) {
         std::cout << word << "\n";
     }
