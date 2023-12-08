@@ -94,3 +94,34 @@ std::set<std::string> WWF::get_dictionary() {
 
 }
 
+
+struct comp {
+    template <typename T>
+ 
+    // Comparator function
+    bool operator()(const T& l, const T& r) const
+    {
+        if (l.second != r.second) {
+            return l.second < r.second;
+        }
+        return l.first < r.first;
+    }
+};
+
+
+// Function to sort the map according
+// to value in a (key-value) pairs
+void WWF::sort(std::map<std::string, int>& M)
+{
+ 
+    // Declare set of pairs and insert
+    // pairs according to the comparator
+    // function comp()
+    std::set<std::pair<std::string, int>, comp> S(M.begin(), M.end());
+ 
+    // Print the sorted value
+    for (auto& it : S) {
+        std::cout << it.first << ' ' << it.second << "\n";
+    }
+} // end sort()
+

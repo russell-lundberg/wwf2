@@ -23,5 +23,7 @@ std::map<std::string,int> Score_Word ( std::string );
 
 std::string str_tolower( std::string );
 
+void sort( std::map<std::string, int>&);
+
 }
 #endif

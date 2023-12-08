@@ -7,6 +7,7 @@
 #include <utility>
 #include <set>
 
+/*
 // Comparison function for sorting the
 // set by increasing order of its pair's
 // second value
@@ -38,6 +39,7 @@ void sort(std::map<std::string, int>& M)
         std::cout << it.first << ' ' << it.second << "\n";
     }
 } // end sort()
+*/
 
 
 
@@ -55,7 +57,7 @@ int main(int argc, char *argv[])
     // define the candidates structure, for permutations found in the dictionary
     // because the permutations are already sorted, sorting is not
     // required here. But the permutations must first be lower-cased to match 
-    // in the disctionary
+    // in the dictionary
     // need to score words before searcing dictionary, so that the highest scored
     // word is selected.
     std::vector<std::string> valid_words;
@@ -81,7 +83,7 @@ int main(int argc, char *argv[])
     }
 
     // sort the scored words by ascending score
-    sort( Scored_Words );
+    WWF::sort( Scored_Words );
 
     /*
     for ( auto it = valid_words.rbegin(); it != valid_words.rend(); it++ ) {
