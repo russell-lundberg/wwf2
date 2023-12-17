@@ -7,6 +7,7 @@
 #include "create_permutations.hpp"
 #include "util.hpp"
 #include <map>
+#include <unordered_map>
 #include <cstring>
 
 
@@ -17,12 +18,16 @@ bool cmp(const std::string lhs, const std::string rhs) {
 
 namespace WWF {
 
-//std::vector<std::string> create_permutations( std::string letters )
-std::vector<std::string> create_permutations( std::string letters, int blanks )
+// std::vector<std::string> create_permutations( std::string letters, int blanks )
+//std::vector<std::string> create_permutations(   std::string letters,
+//                                                std::string blankString)
+std::vector<std::string> create_permutations( 
+        std::unordered_map<std::string,std::string> options )
 {
-//    std::string letters = "abcdefg";
-//    std::cout << "blank value is " << blanks << "\n";
+    std::cout << "blank value is " << options.at("blanks") << "\n";
     
+    std::string letters = options.at("lettersIn");
+
     // container for permutations
     // intermidiate storage of permutations in set
     std::set<std::string> perm_s;
@@ -32,6 +37,21 @@ std::vector<std::string> create_permutations( std::string letters, int blanks )
 
     // the trailing "_s" indicates return type "set"
 //    perm_s = WWF::all_substrings_s( letters );
+
+// the map values were type
+int blanks = 0;
+if ( options.at("blanks") == "blank1") {
+//if ( blankString == "blank1") {
+    blanks = 1;
+    std::cout << "main() blanks chk: " << blanks << "\n";
+}
+
+if ( options.at("blanks") == "blank2") {
+//if ( blankString == "blank2") {
+    blanks = 2;
+    std::cout << "main() blanks chk: " << blanks << "\n";
+}
+
 
     
     // all uppercase to distinguish "blank" letter from letters having 

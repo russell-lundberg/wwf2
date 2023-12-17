@@ -4,48 +4,39 @@
 #include "create_permutations.hpp"
 #include "util.hpp"
 #include <map>
+#include <unordered_map>
 #include <utility>
 #include <set>
-
-/*
-// Comparison function for sorting the
-// set by increasing order of its pair's
-// second value
-struct comp {
-    template <typename T>
- 
-    // Comparator function
-    bool operator()(const T& l, const T& r) const
-    {
-        if (l.second != r.second) {
-            return l.second < r.second;
-        }
-        return l.first < r.first;
-    }
-};
- 
-// Function to sort the map according
-// to value in a (key-value) pairs
-void sort(std::map<std::string, int>& M)
-{
- 
-    // Declare set of pairs and insert
-    // pairs according to the comparator
-    // function comp()
-    std::set<std::pair<std::string, int>, comp> S(M.begin(), M.end());
- 
-    // Print the sorted value
-    for (auto& it : S) {
-        std::cout << it.first << ' ' << it.second << "\n";
-    }
-} // end sort()
-*/
-
 
 
 int main(int argc, char *argv[])
 {
-    std::vector<std::string> Permutations = WWF::ingest_args( argc, argv );
+
+    std::unordered_map<std::string,std::string> Options = {};
+    
+    // ingest_args() returns an unordered map of command line args and values
+    Options = WWF::ingest_args( argc, argv );
+//    for ( auto elem : Options) {
+//        std::cout << "Element name: " << elem.first << ". Value=" << elem.second << "\n";
+//    }
+
+/*
+    // the map values were type
+    int blanks = 0;
+    if ( Options.at("blanks") == "blank1") {
+        blanks = 1;
+        std::cout << "main() blanks chk: " << blanks << "\n";
+    }
+    if ( Options.at("blanks") == "blank2") {
+        blanks = 2;
+        std::cout << "main() blanks chk: " << blanks << "\n";
+    }
+*/
+
+
+   std::vector<std::string> Permutations;
+//   Permutations = WWF::create_permutations( Options["lettersIn"], Options["blanks"] );
+    Permutations = WWF::create_permutations( Options );
 
     // ingest_args() should return what to do, or possibly the boost struct
     // then process based upon that returned value. The next step on main() 
@@ -85,16 +76,13 @@ int main(int argc, char *argv[])
     // sort the scored words by ascending score
     WWF::sort( Scored_Words );
 
-    /*
-    for ( auto it = valid_words.rbegin(); it != valid_words.rend(); it++ ) {
-        std::cout << *it << "\n";
-    }
-
-    for ( std::string word : valid_words ) {
-        std::cout << word << "\n";
-    }
-    */
     std::cout << "there are " << valid_words.size() << " valid words.\n";
+
+    std::cout << "You entered: ";
+    for ( int i = 0 ; i<= argc ; i++ ) {
+        std::cout << argv[i] << " ";
+    }
+    std::cout << "\nEnd.\n";
 
     return 0;
 }

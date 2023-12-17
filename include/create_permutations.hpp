@@ -4,13 +4,14 @@
 #include <vector>
 #include <string>
 #include <set>
+#include <unordered_map>
 
 namespace WWF 
 
 {
 
-//std::vector<std::string> create_permutations( std::string letters );
-std::vector<std::string> create_permutations( std::string, int );
+std::vector<std::string> create_permutations( std::unordered_map<std::string,std::string> );
+//std::vector<std::string> create_permutations( std::string, std::string );
 
 std::string permutation( std::string letters, int perm_index );
 
