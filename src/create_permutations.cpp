@@ -21,7 +21,7 @@ namespace WWF {
 std::vector<std::string> create_permutations( std::string letters, int blanks )
 {
 //    std::string letters = "abcdefg";
-    std::cout << "blank value is " << blanks << "\n";
+//    std::cout << "blank value is " << blanks << "\n";
     
     // container for permutations
     // intermidiate storage of permutations in set
@@ -57,7 +57,7 @@ std::vector<std::string> create_permutations( std::string letters, int blanks )
                 std::set<std::string> this_time = WWF::all_substrings_s( tmp1 );
                 for ( auto elem : this_time ) {
                     perm_s.insert(elem);
-                std::cout << "elem: " << elem << "\n";
+//                std::cout << "elem: " << elem << "\n";
                 }
 //                std::cout << "tmp1: " << tmp1 << "\n";
                     j++;
@@ -71,7 +71,7 @@ std::vector<std::string> create_permutations( std::string letters, int blanks )
 
 
 
-    std::cout << perm_s.size() << " substrings generated.\n";
+//    std::cout << perm_s.size() << " substrings generated.\n";
 
     // loop through all substrings feeding each to 
     // all_permutations().
@@ -84,7 +84,7 @@ std::vector<std::string> create_permutations( std::string letters, int blanks )
             final_s.insert(elem);
         }
     }
-    std::cout << final_s.size() << " permutations generated.\n";
+//    std::cout << final_s.size() << " permutations generated.\n";
 
     // create a map for reporting statistics
     std::map<int, int> stats;
@@ -128,7 +128,7 @@ std::vector<std::string> create_permutations( std::string letters, int blanks )
        std::cout << pos->first << ": " << pos->second << "\n";
        total += pos->second;
     }
-    std::cout << total << " permutations generated.\n";
+//    std::cout << total << " permutations generated.\n";
 
     return words;
 }

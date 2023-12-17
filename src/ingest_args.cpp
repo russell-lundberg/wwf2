@@ -98,18 +98,18 @@ std::vector<std::string> WWF::ingest_args( int argc, char* argv[]) {
         }
 
         if (vm.count("blank1") ) {
-            std::cout << "There is one blank character\n";
+//            std::cout << "There is one blank character\n";
             blanks = 1;
         }
 
         if (vm.count("blank2") ) {
-            std::cout << "There are two blank characters\n";
+//            std::cout << "There are two blank characters\n";
             blanks = 2;
         }
 
         if (vm.count("rack") ) {
-            std::cout << "Rack letters used to make words: "
-                 << vm["rack"].as<std::string>() << "\n";
+//            std::cout << "Rack letters used to make words: "
+//                 << vm["rack"].as<std::string>() << "\n";
 
                  std::string lowered = str_tolower( vm["rack"].as<std::string>() );
 //                 std::cout << "case-lowered result: " << lowered << "\n";
@@ -119,8 +119,8 @@ std::vector<std::string> WWF::ingest_args( int argc, char* argv[]) {
             
 
             if (vm.count("extend") ) {
-                std::cout << "Board letters to combine with rack letters: "
-                     << vm["extend"].as<std::string>() << "\n";
+//                std::cout << "Board letters to combine with rack letters: "
+//                     << vm["extend"].as<std::string>() << "\n";
 
                  std::string lowered = str_tolower( vm["extend"].as<std::string>() );
 //                 std::cout << "case-lowered result: " << lowered << "\n";
