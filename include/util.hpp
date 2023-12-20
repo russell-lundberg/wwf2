@@ -24,9 +24,10 @@ std::map<std::string,int> Score_Word ( std::string );
 
 std::string str_tolower( std::string );
 
-std::string lettersInput( std::string, std::string );
 
-void sort( std::map<std::string, int>&);
+void sort( std::map<std::string, int>& );
+std::set<std::pair<std::string,int>> Words_Sorted( std::map<std::string, int>&, std::unordered_map<std::string,std::string> );
+
 
 }
 #endif

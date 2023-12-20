@@ -24,9 +24,11 @@ namespace WWF {
 std::vector<std::string> create_permutations( 
         std::unordered_map<std::string,std::string> options )
 {
-    std::cout << "blank value is " << options.at("blanks") << "\n";
+//    std::cout << "Create_Permutations(): starting.\n";
     
     std::string letters = options.at("lettersIn");
+
+//    std::cout << "Create_Permutations(): lettersIn: " << letters << ".\n";
 
     // container for permutations
     // intermidiate storage of permutations in set
@@ -43,17 +45,15 @@ int blanks = 0;
 if ( options.at("blanks") == "blank1") {
 //if ( blankString == "blank1") {
     blanks = 1;
-    std::cout << "main() blanks chk: " << blanks << "\n";
+//    std::cout << "main() blanks chk: " << blanks << "\n";
 }
 
 if ( options.at("blanks") == "blank2") {
 //if ( blankString == "blank2") {
     blanks = 2;
-    std::cout << "main() blanks chk: " << blanks << "\n";
+//    std::cout << "main() blanks chk: " << blanks << "\n";
 }
 
-
-    
     // all uppercase to distinguish "blank" letter from letters having 
     // non-zero value
     std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -91,7 +91,7 @@ if ( options.at("blanks") == "blank2") {
 
 
 
-//    std::cout << perm_s.size() << " substrings generated.\n";
+    std::cout << perm_s.size() << " substrings generated.\n";
 
     // loop through all substrings feeding each to 
     // all_permutations().
@@ -104,7 +104,8 @@ if ( options.at("blanks") == "blank2") {
             final_s.insert(elem);
         }
     }
-//    std::cout << final_s.size() << " permutations generated.\n";
+
+    std::cout << final_s.size() << " permutations generated.\n";
 
     // create a map for reporting statistics
     std::map<int, int> stats;
@@ -117,11 +118,11 @@ if ( options.at("blanks") == "blank2") {
 
     // iterate the set container into a vector "words"
     std::vector<std::string> words;
-//    for ( auto elem : perm_s ) {
     for ( auto elem : final_s ) {
         if (elem.size() == 0 ) continue;
         words.push_back(elem);
     }
+
     // now sort the vector by string length
     std::sort(words.begin(),
               words.end(),

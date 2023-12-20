@@ -39,18 +39,6 @@ std::string WWF::str_tolower(std::string s)
 }
 
 
-// string lettersInput(string Rack, string Extend)
-std::string WWF::lettersInput(std::string Rack, std::string Extend ) {
-    std::string lettersIn = str_tolower( Rack );
-
-    if ( Extend.empty() )
-        return lettersIn;
-
-    lettersIn += str_tolower( Extend );
-    return lettersIn;
-}
-
-
 // ingest_args(). Process the input args
 std::unordered_map<std::string,std::string> WWF::ingest_args( int argc, char* argv[]) {
 //std::vector<std::string> WWF::ingest_args( int argc, char* argv[]) {
@@ -67,22 +55,20 @@ std::unordered_map<std::string,std::string> WWF::ingest_args( int argc, char* ar
     std::string letters_input;
     std::string lettersIn = "";
 
-    // indicate presence of 1 oe 2 blank tiles
-//    int blanks = 0;
-
-    
     try {
         //        po::options_description desc("Allowed options");
         desc.add_options()
         ("help,h", "Print this help message and exit")
         ("blank1,b", "Rack contains 1 blank char")
         ("blank2,B", "Rack contains 2 blank chars")
+        // the implicit value allows the option to be entered without a value
         ("extend,e", po::value<std::string>()->implicit_value(""), "Extend rack with these chars")
         ("filter,f", po::value<std::string>(), "Filter results by <regex>")
         ("group,g", po::value<std::string>(), "Create words using this contiguous group of chars")
         ("length,l", po::value<int>(&word_length)->default_value(5), "Display words at least this long")
         ("rack,r", po::value<std::string>(), "Rack of chars to combine into words")
         ("search,s", po::value<std::string>(), "Search dictionary for <regex>")
+        ("regex,x", po::value<std::string>(), "Filter results by <regex>")
         ;
 
         po::variables_map vm;
@@ -108,6 +94,8 @@ std::unordered_map<std::string,std::string> WWF::ingest_args( int argc, char* ar
             }
         }
 
+//        std::cout << "ingest_args(): argument processing.\n";
+
         if (vm.count("help")) {
             std::cout << "Usage: program [options]\n";
             std::cout << desc;
@@ -125,19 +113,33 @@ std::unordered_map<std::string,std::string> WWF::ingest_args( int argc, char* ar
             arg.emplace("blanks", "blank0");
         }
 
+
+        std::string theRack = "";
         if (vm.count("rack") ) {
-            std::string theRack = "";
             theRack = vm["rack"].as<std::string>();
             arg.insert({"rack",theRack});
-            std::string theExtend = "";
-            if (vm.count("extend") ) {
-                theExtend = vm["extend"].as<std::string>();
-                arg.insert({"extend",theExtend});
-
-                lettersIn = lettersInput(   theRack, theExtend );
-                arg.insert({"lettersIn",lettersIn});
-            }
+            lettersIn = str_tolower(   theRack );
         }
+
+//        std::cout << "ingest_args(): processing extend.\n";
+
+        std::string theExtend = "";
+        if (vm.count("extend") ) {
+            theExtend = vm["extend"].as<std::string>();
+            arg.insert({"extend",theExtend});
+
+            std::string temp = str_tolower(   theExtend );
+            lettersIn += temp;
+//            std::cout << "extend lower-cased: " << temp << "\n";
+        }
+        arg.insert({"lettersIn",lettersIn});
+        
+//        std::cout << "ingest_arguments(): lettersIn=" << lettersIn << ".\n";
+
+//        std::cout << "processing regex.\n";
+
+        if (vm.count("regex") )
+            arg.insert({"regex",vm["regex"].as<std::string>()});
 
         if (vm.count("subtract-dict") )
         {
@@ -149,7 +151,7 @@ std::unordered_map<std::string,std::string> WWF::ingest_args( int argc, char* ar
     {
         std::cout << e.what() << "\n";
     }
-    std::cout << "Ingest_args(): Letters in " << lettersIn << "\n";
+//    std::cout << "Ingest_args(): Letters in " << lettersIn << "\n";
 
     return arg;
 
