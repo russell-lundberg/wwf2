@@ -1,6 +1,6 @@
 UNAME_S := $(shell uname -s)
 
-CFLAGS=-g -Wall -Wextra -std=c++14
+CFLAGS=-g -Wall -Wextra -std=c++17
 #CFLAGS += -fsyntax-only
 CFLAGS += -fmax-errors=4
 

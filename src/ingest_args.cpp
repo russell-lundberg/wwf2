@@ -16,6 +16,7 @@ namespace po = boost::program_options;
 #include <cstring>
 #include "create_permutations.hpp"
 #include "util.hpp"
+#include <unordered_map>
 
 
 using vString = std::vector<std::string>;
@@ -38,34 +39,36 @@ std::string WWF::str_tolower(std::string s)
 }
 
 
-std::vector<std::string> WWF::ingest_args( int argc, char* argv[]) {
+// ingest_args(). Process the input args
+std::unordered_map<std::string,std::string> WWF::ingest_args( int argc, char* argv[]) {
+//std::vector<std::string> WWF::ingest_args( int argc, char* argv[]) {
 
     std::string nothing = "";
 
+    // store variables in a unordered_map container return value
+    std::unordered_map<std::string,std::string> arg;
   
     po::options_description desc("Allowed options");
     int word_length = 0;
 
     // aggregate letters to pass to permutations generator
     std::string letters_input;
+    std::string lettersIn = "";
 
-    // indicate presence of 1 oe 2 blank tiles
-    int blanks = 0;
-
-    
     try {
         //        po::options_description desc("Allowed options");
         desc.add_options()
         ("help,h", "Print this help message and exit")
         ("blank1,b", "Rack contains 1 blank char")
         ("blank2,B", "Rack contains 2 blank chars")
+        // the implicit value allows the option to be entered without a value
         ("extend,e", po::value<std::string>()->implicit_value(""), "Extend rack with these chars")
-//        ("extend,e", po::value<std::string>(), "Extend rack with these chars")
-        ("filter,f", po::value< vString >(), "Filter results by <regex>")
-        ("group,g", po::value< vString >(), "Create words using this contiguous group of chars")
+        ("filter,f", po::value<std::string>(), "Filter results by <regex>")
+        ("group,g", po::value<std::string>(), "Create words using this contiguous group of chars")
         ("length,l", po::value<int>(&word_length)->default_value(5), "Display words at least this long")
-        ("rack,r", po::value< std::string >(), "Rack of chars to combine into words")
-        ("search,s", po::value< vString >(), "Search dictionary for <regex>")
+        ("rack,r", po::value<std::string>(), "Rack of chars to combine into words")
+        ("search,s", po::value<std::string>(), "Search dictionary for <regex>")
+        ("regex,x", po::value<std::string>(), "Filter results by <regex>")
         ;
 
         po::variables_map vm;
@@ -91,44 +94,52 @@ std::vector<std::string> WWF::ingest_args( int argc, char* argv[]) {
             }
         }
 
+//        std::cout << "ingest_args(): argument processing.\n";
 
         if (vm.count("help")) {
             std::cout << "Usage: program [options]\n";
             std::cout << desc;
         }
 
-        if (vm.count("blank1") ) {
-//            std::cout << "There is one blank character\n";
-            blanks = 1;
+        // presently, a blank must be defined, even if it is 0
+        if (vm.count("blank1") || vm.count("blank2") ) {
+            if (vm.count("blank1"))
+                arg.emplace("blanks", "blank1");
+            if (vm.count("blank2") ) 
+                arg.emplace("blanks", "blank2");
+        }
+        else {
+            // if no blank defined, say so
+            arg.emplace("blanks", "blank0");
         }
 
-        if (vm.count("blank2") ) {
-//            std::cout << "There are two blank characters\n";
-            blanks = 2;
-        }
 
+        std::string theRack = "";
         if (vm.count("rack") ) {
-//            std::cout << "Rack letters used to make words: "
-//                 << vm["rack"].as<std::string>() << "\n";
-
-                 std::string lowered = str_tolower( vm["rack"].as<std::string>() );
-//                 std::cout << "case-lowered result: " << lowered << "\n";
-
-                letters_input += lowered;
-//                letters_input += vm["rack"].as<std::string>();
-            
-
-            if (vm.count("extend") ) {
-//                std::cout << "Board letters to combine with rack letters: "
-//                     << vm["extend"].as<std::string>() << "\n";
-
-                 std::string lowered = str_tolower( vm["extend"].as<std::string>() );
-//                 std::cout << "case-lowered result: " << lowered << "\n";
-
-                letters_input += lowered;
-//                letters_input += vm["extend"].as<std::string>();
-            }
+            theRack = vm["rack"].as<std::string>();
+            arg.insert({"rack",theRack});
+            lettersIn = str_tolower(   theRack );
         }
+
+//        std::cout << "ingest_args(): processing extend.\n";
+
+        std::string theExtend = "";
+        if (vm.count("extend") ) {
+            theExtend = vm["extend"].as<std::string>();
+            arg.insert({"extend",theExtend});
+
+            std::string temp = str_tolower(   theExtend );
+            lettersIn += temp;
+//            std::cout << "extend lower-cased: " << temp << "\n";
+        }
+        arg.insert({"lettersIn",lettersIn});
+        
+//        std::cout << "ingest_arguments(): lettersIn=" << lettersIn << ".\n";
+
+//        std::cout << "processing regex.\n";
+
+        if (vm.count("regex") )
+            arg.insert({"regex",vm["regex"].as<std::string>()});
 
         if (vm.count("subtract-dict") )
         {
@@ -140,14 +151,17 @@ std::vector<std::string> WWF::ingest_args( int argc, char* argv[]) {
     {
         std::cout << e.what() << "\n";
     }
-    std::cout << "Letters in: " << letters_input << "\n";
+//    std::cout << "Ingest_args(): Letters in " << lettersIn << "\n";
 
-//    std::vector<std::string> Permutations = WWF::create_permutations( letters_input );
+    return arg;
+
+    /*
     std::vector<std::string> Permutations;
-    Permutations = WWF::create_permutations( letters_input, blanks );
+    Permutations = WWF::create_permutations( lettersIn, blanks );
 
-    std::cout << Permutations.size() << " Permutations returned from \"" << letters_input << "\".\n";
+    std::cout << Permutations.size() << " Permutations returned from \"" << lettersIn << "\".\n";
 
     return Permutations;
+    */
 
-}
+} // end ingest_args()

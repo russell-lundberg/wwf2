@@ -4,13 +4,12 @@
 #include "create_permutations.hpp"
 #include "util.hpp"
 #include <map>
+#include <unordered_map>
 #include <utility>
 #include <set>
 
+// comparison function to sort the valid words by score
 /*
-// Comparison function for sorting the
-// set by increasing order of its pair's
-// second value
 struct comp {
     template <typename T>
  
@@ -23,47 +22,36 @@ struct comp {
         return l.first < r.first;
     }
 };
- 
-// Function to sort the map according
-// to value in a (key-value) pairs
-void sort(std::map<std::string, int>& M)
-{
- 
-    // Declare set of pairs and insert
-    // pairs according to the comparator
-    // function comp()
-    std::set<std::pair<std::string, int>, comp> S(M.begin(), M.end());
- 
-    // Print the sorted value
-    for (auto& it : S) {
-        std::cout << it.first << ' ' << it.second << "\n";
-    }
-} // end sort()
 */
 
 
 
 int main(int argc, char *argv[])
 {
-    std::vector<std::string> Permutations = WWF::ingest_args( argc, argv );
+    std::unordered_map<std::string,std::string> Options = {};
+    
+    // ingest_args() returns an unordered map of command line args and values
+    Options = WWF::ingest_args( argc, argv );
 
-    // ingest_args() should return what to do, or possibly the boost struct
-    // then process based upon that returned value. The next step on main() 
-    // would be a dispatch function takine the return value of ingest_options()
-    // as an input. That return value s/b an associative array
+//    std::cout << "Ingested arguments.\n";
 
+    std::vector<std::string> Permutations;
+    Permutations = WWF::create_permutations( Options );
+
+//    std::cout << "created permutations.\n";
+
+    // return the dictionary file as a SET container
     std::set<std::string> Dictionary = WWF::get_dictionary();
 
-    // define the candidates structure, for permutations found in the dictionary
-    // because the permutations are already sorted, sorting is not
-    // required here. But the permutations must first be lower-cased to match 
-    // in the dictionary
-    // need to score words before searcing dictionary, so that the highest scored
-    // word is selected.
+//    std::cout << "Loaded dictionary.\n";
+
+    // valid words are permutations found in the dictionary. Because permutations
+    // are already sorted, sorting is not required here. But the permutations must
+    // first be lower-cased to match words in the dictionary
     std::vector<std::string> valid_words;
 
-    // let's reverse the sort by defining a map that sorts on descending
-    // value
+    // Lower-casing the input and scoring each letter might best be done at the
+    // same time, as they both require char-by-char processing.
     for ( auto word : Permutations ) {
         // must find the word in lower case
         std::string word_lower = {};
@@ -75,6 +63,8 @@ int main(int argc, char *argv[])
         }
     }
 
+//    std::cout << "Got permutations.\n";
+
     // score all the dictionary words in a map container
     std::map<std::string,int> Scored_Words;
     for ( auto elem : valid_words ) {
@@ -82,19 +72,19 @@ int main(int argc, char *argv[])
         Scored_Words.insert( Scored_Word.begin(), Scored_Word.end() );
     }
 
+//    std::cout << "Scored words.\n";
+
     // sort the scored words by ascending score
-    WWF::sort( Scored_Words );
-
-    /*
-    for ( auto it = valid_words.rbegin(); it != valid_words.rend(); it++ ) {
-        std::cout << *it << "\n";
-    }
-
-    for ( std::string word : valid_words ) {
-        std::cout << word << "\n";
-    }
-    */
+    std::set<std::pair<std::string,int>> sorted_words;
+    sorted_words = WWF::Words_Sorted( Scored_Words, Options );
+    
     std::cout << "there are " << valid_words.size() << " valid words.\n";
+
+    std::cout << "You entered: ";
+    for ( int i = 0 ; i<= argc ; i++ ) {
+        std::cout << argv[i] << " ";
+    }
+    std::cout << "\nEnd.\n";
 
     return 0;
 }

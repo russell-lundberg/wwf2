@@ -3,6 +3,8 @@
 #include <set>
 #include <vector>
 #include "util.hpp"
+#include <regex>
+#include <bits/stdc++.h>
 
 // function show_usage() print a message describing proper usage 
 void WWF::show_usage(std::string name) {
@@ -67,28 +69,6 @@ std::set<std::string> WWF::get_dictionary() {
     // confirm the file got slurped
     std::cout << Dictionary.size() << " words in dictionary.\n";
 
-
-    // code below to test that dictionary was opened
-    /*
-    std::vector<std::string> input = {"e","o","t","h","c","a","p"};
-    std::vector<std::string> valid_words;
-    std::vector<std::string> candidates;
-    candidates.push_back("cat");
-    candidates.push_back("dog");
-    candidates.push_back("crush");
-    candidates.push_back("table");
-    candidates.push_back("fdxc");
-    candidates.push_back("qqqqq");
-
-    for ( auto & word : candidates ) {
-        if ( Dictionary.find(word) != Dictionary.end() ) {
-            valid_words.push_back(word);
-        }
-    }
-
-    std::cout << "there are " << valid_words.size() << " valid words.\n";
-    */
-
     // this will need a proper return value, like the SET name
     return Dictionary;
 
@@ -124,4 +104,73 @@ void WWF::sort(std::map<std::string, int>& M)
         std::cout << it.first << ' ' << it.second << "\n";
     }
 } // end sort()
+
+
+// sort by value the permutations which were found in the dictionary. Pardon the 
+// lame regex workaround
+std::set<std::pair<std::string,int>> WWF::Words_Sorted(
+            std::map<std::string, int>& M, 
+            std::unordered_map<std::string,std::string> options )
+{
+    // Declare set of pairs and insert
+    // pairs according to the comparator
+    // function comp()
+    std::set<std::pair<std::string, int>, comp> S(M.begin(), M.end());
+
+    // Create a return SET container and a vectopr for regex matches
+    std::set<std::pair<std::string,int>> return_value;
+    std::vector<std::string> regex_matches;
+    std::regex regex_input;
+    bool isRegex = false;
+
+//    std::cout << "About to test regex.\n";
+
+    options.count("regex") == 1 ? isRegex = true : isRegex = false;
+
+    if ( options.count("regex") == 1 ) {
+        isRegex = 1;
+        // this casts the std::string input to a std::regex
+        regex_input = std::regex( options.at("regex") );
+    }
+
+//    std::cout << "Tested regex.\n";
+
+    for (auto& it : S) {
+        // this prints the valid, sorted words to the screen
+        std::cout << it.first << ' ' << it.second << "\n";
+        if ( isRegex ) {
+            if ( std::regex_search(it.first, regex_input ) ) {
+                // long-ass process to cast an int to a string
+                std::stringstream stream;
+                stream << it.second;
+                std::string str;
+                stream >> str;
+                std::string cluster = it.first + ", " + str;
+                regex_matches.push_back( cluster );
+            }
+        }
+    }
+    if ( regex_matches.size() ) {
+        std::cout   << regex_matches.size() 
+                    << " words match your regex \"" 
+                    << options.at("regex")
+                    << "\"\n";
+    
+        for ( auto elem : regex_matches ) {
+            std::cout << elem << "\n";
+        }
+    }
+
+    return return_value;
+} // end Words_Sorted()
+
+
+// Words_Printed.
+void WWF::Words_Printed( std::set<std::pair<std::string,int>>& sorted)
+{
+    // Print the sorted value
+    for (auto& it : sorted ) {
+        std::cout << it.first << ' ' << it.second << "\n";
+    }
+}
 
