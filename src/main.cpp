@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <utility>
 #include <set>
+#include "options.hpp"
 
 // comparison function to sort the valid words by score
 /*
@@ -31,19 +32,20 @@ int main(int argc, char *argv[])
     std::unordered_map<std::string,std::string> Options = {};
     
     // ingest_args() returns an unordered map of command line args and values
-    Options = WWF::ingest_args( argc, argv );
+//    Options = WWF::ingest_args( argc, argv );
+    Options = process_argv( argc, argv );
 
-//    std::cout << "Ingested arguments.\n";
+    std::cout << "Ingested arguments.\n";
 
     std::vector<std::string> Permutations;
     Permutations = WWF::create_permutations( Options );
 
-//    std::cout << "created permutations.\n";
+    std::cout << "created permutations.\n";
 
     // return the dictionary file as a SET container
     std::set<std::string> Dictionary = WWF::get_dictionary();
 
-//    std::cout << "Loaded dictionary.\n";
+    std::cout << "Loaded dictionary.\n";
 
     // valid words are permutations found in the dictionary. Because permutations
     // are already sorted, sorting is not required here. But the permutations must

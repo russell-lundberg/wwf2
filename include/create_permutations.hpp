@@ -21,6 +21,8 @@ std::set<std::string> all_substrings_s( std::string letters );
 
 //std::vector<std::string> all_subpermutations( std::string letters );
 
+//int factorial( int );
+
 }
 
 #endif

@@ -4,7 +4,7 @@
 #include <vector>
 #include "util.hpp"
 #include <regex>
-#include <bits/stdc++.h>
+#include <sstream>
 
 // function show_usage() print a message describing proper usage 
 void WWF::show_usage(std::string name) {
@@ -165,6 +165,15 @@ std::set<std::pair<std::string,int>> WWF::Words_Sorted(
 } // end Words_Sorted()
 
 
+// replace the Boost::Math::Factorial()
+int WWF::factorial( int n) {
+    int result = 1;
+    for (int i=1; i <=n ; i++ ) {
+        result *= i;
+    }
+    return result;
+}
+/*
 // Words_Printed.
 void WWF::Words_Printed( std::set<std::pair<std::string,int>>& sorted)
 {
@@ -173,4 +182,5 @@ void WWF::Words_Printed( std::set<std::pair<std::string,int>>& sorted)
         std::cout << it.first << ' ' << it.second << "\n";
     }
 }
+*/
 

@@ -3,12 +3,12 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
-#include <boost/math/special_functions/factorials.hpp>
 #include "create_permutations.hpp"
 #include "util.hpp"
 #include <map>
 #include <unordered_map>
 #include <cstring>
+#define _DEBUG
 
 
 bool cmp(const std::string lhs, const std::string rhs) {
@@ -18,17 +18,15 @@ bool cmp(const std::string lhs, const std::string rhs) {
 
 namespace WWF {
 
-// std::vector<std::string> create_permutations( std::string letters, int blanks )
-//std::vector<std::string> create_permutations(   std::string letters,
-//                                                std::string blankString)
-std::vector<std::string> create_permutations( 
-        std::unordered_map<std::string,std::string> options )
+std::vector<std::string> create_permutations( std::unordered_map<std::string,std::string> options )
 {
-//    std::cout << "Create_Permutations(): starting.\n";
-    
+    #ifdef _DEBUG
+    std::cout << "Create_Permutations(): starting.\n";
+    #endif
+
     std::string letters = options.at("lettersIn");
 
-//    std::cout << "Create_Permutations(): lettersIn: " << letters << ".\n";
+    std::cout << "Create_Permutations(): lettersIn: " << letters << ".\n";
 
     // container for permutations
     // intermidiate storage of permutations in set
@@ -38,20 +36,27 @@ std::vector<std::string> create_permutations(
     std::set<std::string> final_s;
 
     // the trailing "_s" indicates return type "set"
-//    perm_s = WWF::all_substrings_s( letters );
+    //    perm_s = WWF::all_substrings_s( letters );
 
-// the map values were type
-int blanks = 0;
-if ( options.at("blanks") == "blank1") {
-//if ( blankString == "blank1") {
-    blanks = 1;
-//    std::cout << "main() blanks chk: " << blanks << "\n";
-}
+    std::cout << "Create_Permutations(): starting tests.\n";
+    // the map values were type
+    int blanks = 0;
 
-if ( options.at("blanks") == "blank2") {
-//if ( blankString == "blank2") {
-    blanks = 2;
-//    std::cout << "main() blanks chk: " << blanks << "\n";
+// if ( options.at("blanks") == "blank1")  
+if (auto search = options.find("blanks"); search != options.end()) {
+        std::cout << "Found " << search->first << ' ' << search->second << '\n';
+
+    if ( options.at("blanks") == "blank1") {
+        blanks = 1;
+        std::cout << "main() blanks chk: " << blanks << "\n";
+    }
+
+    std::cout << "Create_Permutations(): tested blank1.\n";
+
+    if ( options.at("blanks") == "blank2") {
+        blanks = 2;
+        std::cout << "main() blanks chk: " << blanks << "\n";
+    }
 }
 
     // all uppercase to distinguish "blank" letter from letters having 
@@ -162,23 +167,24 @@ std::string permutation( std::string word, int perm_idx )
 
     unsigned long int length = word.size() ;
 
-    double factored = boost::math::factorial<double>( length );
-    if ( perm_idx >= (int) factored || perm_idx < 0 )
+    // replace Boost::Math::Factorial()
+    int fact = WWF::factorial( int(length) );
+
+    if ( perm_idx >=  fact || perm_idx < 0 )
     {
 //        std::cout << "permutations::invalid perm_index: " << perm_idx << "\n";
         return "";
     }
 
-    factored = boost::math::factorial<double>( length - 1 );
+    fact = WWF::factorial( int ( length - 1 ) );
 
-    int current_idx = perm_idx / ( int)factored;
+    int current_idx = perm_idx / fact;
 
-    int rest = perm_idx % (int)factored;
+    int rest = perm_idx % fact;
 
     std::string first_letter = word.substr(current_idx, 1 );
 
     word = word.replace(current_idx, 1, "");
-//    word = word.erase( current_idx );
 
     std::string more_letters;
     more_letters =  WWF::permutation( word, rest);
@@ -192,7 +198,8 @@ std::vector<std::string> all_permutations( std::string letters )
 
     std::vector<std::string> permutations;
 
-    double fact = boost::math::factorial<double>( letters.size() );
+    int fact = 0;
+    fact = WWF::factorial( int ( letters.size() ) );
 
     for ( double i = 0 ; i <= fact ; i++ )
     {
