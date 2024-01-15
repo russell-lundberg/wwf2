@@ -7,6 +7,7 @@
 #include <sstream>
 
 // function show_usage() print a message describing proper usage 
+/*
 void WWF::show_usage(std::string name) {
     std::string msg;
     if ( name.size() ==0 ) {
@@ -27,6 +28,7 @@ void WWF::show_usage(std::string name) {
               << "\t-x,\t\tfilter results by provided regex\n"
               << "\n";
 }
+*/
 // END show_usage()
 
 

@@ -21,8 +21,18 @@ namespace WWF {
 std::vector<std::string> create_permutations( std::unordered_map<std::string,std::string> options )
 {
     #ifdef _DEBUG
-    std::cout << "Create_Permutations(): starting.\n";
+    std::cout << "create_Permutations(): starting.\n";
     #endif
+
+    if ( options.empty() ) {
+        std::cout << "options arg was empty";
+        exit(1);
+    }
+
+    for ( auto elem : options) {
+        std::cout << "create_permutations(): Option=" << elem.first << ". Value: " << elem.second << ".\n";
+    }
+
 
     std::string letters = options.at("lettersIn");
 

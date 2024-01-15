@@ -36,6 +36,9 @@ int main(int argc, char *argv[])
     Options = process_argv( argc, argv );
 
     std::cout << "Ingested arguments.\n";
+    for ( auto elem : Options) {
+        std::cout << "Option: " << elem.first << ". Value: " << elem.second << ".\n";
+    }
 
     std::vector<std::string> Permutations;
     Permutations = WWF::create_permutations( Options );
