@@ -8,7 +8,6 @@
 #include <map>
 #include <unordered_map>
 #include <cstring>
-#define _DEBUG
 
 
 bool cmp(const std::string lhs, const std::string rhs) {
@@ -20,23 +19,23 @@ namespace WWF {
 
 std::vector<std::string> create_permutations( std::unordered_map<std::string,std::string> options )
 {
-    #ifdef _DEBUG
-    std::cout << "create_Permutations(): starting.\n";
-    #endif
+//    std::cout << "create_Permutations(): starting.\n";
 
     if ( options.empty() ) {
         std::cout << "options arg was empty";
         exit(1);
     }
 
+    /*
     for ( auto elem : options) {
         std::cout << "create_permutations(): Option=" << elem.first << ". Value: " << elem.second << ".\n";
     }
+    */
 
 
     std::string letters = options.at("lettersIn");
 
-    std::cout << "Create_Permutations(): lettersIn: " << letters << ".\n";
+    // std::cout << "Create_Permutations(): lettersIn: " << letters << ".\n";
 
     // container for permutations
     // intermidiate storage of permutations in set
@@ -45,29 +44,27 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
     // final storage of permutations in set
     std::set<std::string> final_s;
 
-    // the trailing "_s" indicates return type "set"
-    //    perm_s = WWF::all_substrings_s( letters );
 
-    std::cout << "Create_Permutations(): starting tests.\n";
+    // std::cout << "Create_Permutations(): starting tests.\n";
     // the map values were type
     int blanks = 0;
 
-// if ( options.at("blanks") == "blank1")  
-if (auto search = options.find("blanks"); search != options.end()) {
-        std::cout << "Found " << search->first << ' ' << search->second << '\n';
+    // if ( options.at("blanks") == "blank1")  
+    if (auto search = options.find("blanks"); search != options.end()) {
+        // std::cout << "Found " << search->first << ' ' << search->second << '\n';
 
-    if ( options.at("blanks") == "blank1") {
-        blanks = 1;
-        std::cout << "main() blanks chk: " << blanks << "\n";
+        if ( options.at("blanks") == "blank1") {
+            blanks = 1;
+            // std::cout << "main() blanks chk: " << blanks << "\n";
+        }
+
+    // std::cout << "Create_Permutations(): tested blank1.\n";
+
+        if ( options.at("blanks") == "blank2") {
+            blanks = 2;
+            // std::cout << "main() blanks chk: " << blanks << "\n";
+        }
     }
-
-    std::cout << "Create_Permutations(): tested blank1.\n";
-
-    if ( options.at("blanks") == "blank2") {
-        blanks = 2;
-        std::cout << "main() blanks chk: " << blanks << "\n";
-    }
-}
 
     // all uppercase to distinguish "blank" letter from letters having 
     // non-zero value
@@ -92,19 +89,16 @@ if (auto search = options.find("blanks"); search != options.end()) {
                 std::set<std::string> this_time = WWF::all_substrings_s( tmp1 );
                 for ( auto elem : this_time ) {
                     perm_s.insert(elem);
-//                std::cout << "elem: " << elem << "\n";
+                    // std::cout << "elem: " << elem << "\n";
                 }
-//                std::cout << "tmp1: " << tmp1 << "\n";
-                    j++;
+                // std::cout << "tmp1: " << tmp1 << "\n";
             }
         }
-        std::cout << j << " loops processed\n.";
+        // std::cout << j << " loops processed\n.";
     }
     else {
                 perm_s = WWF::all_substrings_s( letters );
     }
-
-
 
     std::cout << perm_s.size() << " substrings generated.\n";
 
@@ -120,7 +114,7 @@ if (auto search = options.find("blanks"); search != options.end()) {
         }
     }
 
-    std::cout << final_s.size() << " permutations generated.\n";
+    // std::cout << final_s.size() << "Create_Permutations(): permutations generated.\n";
 
     // create a map for reporting statistics
     std::map<int, int> stats;
@@ -145,13 +139,9 @@ if (auto search = options.find("blanks"); search != options.end()) {
 
     // this loop prints the unique permutations by
     // descending length, and populates the stats hash
-//    int i = 1;
     for ( auto elem : words) {
         // printf() wants a char type for strings. So 
         // elem must be converted using cstring library
-//        char temp[ elem.size() +1];
-//        strcpy(temp, elem.c_str());
-//        std::printf("%2i: %s\n", i++, temp);
         stats[ elem.size() ] += 1;
     }
 
@@ -167,7 +157,7 @@ if (auto search = options.find("blanks"); search != options.end()) {
 //    std::cout << total << " permutations generated.\n";
 
     return words;
-}
+} // end Create_Permutations()
 
 
 std::string permutation( std::string word, int perm_idx )
