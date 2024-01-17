@@ -3,8 +3,9 @@ UNAME_S := $(shell uname -s)
 CFLAGS=-g -Wall -Wextra -std=c++17
 #CFLAGS += -fsyntax-only
 CFLAGS += -fmax-errors=4
+CFLAGS += -Wno-unused-variable -Wno-unused-parameter
 
-CCFLAGS=-D BOOST_MATH_STANDALONE
+#CCFLAGS=-D BOOST_MATH_STANDALONE
 # I always keep my source files in a directory called "src"
 SRC=src
 SRCS=$(wildcard $(SRC)/*.cpp)
@@ -28,11 +29,13 @@ ifeq ($(UNAME_S),Darwin)
     BOOST_ROOT=/opt/homebrew/Cellar/boost/1.83.0
 endif
 
-INCLUDE=-Iinclude -I$(BOOST_ROOT)/include
+#INCLUDE=-Iinclude -I$(BOOST_ROOT)/include
+INCLUDE=-Iinclude 
 
 LDFLAGS=
 
-LDLIBS=-L$(BOOST_ROOT)/lib -lstdc++ -lboost_system -l:libboost_program_options.a
+LDLIBS=-lstdc++
+#LDLIBS=-lboost_system -l:libboost_program_options.a -L$(BOOST_ROOT)/lib
 
 all:$(BIN)
 

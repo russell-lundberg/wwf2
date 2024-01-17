@@ -4,30 +4,7 @@
 #include <vector>
 #include "util.hpp"
 #include <regex>
-#include <bits/stdc++.h>
-
-// function show_usage() print a message describing proper usage 
-void WWF::show_usage(std::string name) {
-    std::string msg;
-    if ( name.size() ==0 ) {
-        msg = "Usage:\n";
-    }
-    else {
-        msg = "Usage: " + name + "\n";
-    }
-    std::cerr << msg
-              << "Options:\n"
-              << "\t-h,--help\t\tShow this help message\n"
-              << "\t-b,\t\thand contains a blank tile\n"
-              << "\t-B,\t\thand contains 2 blank tiles\n"
-              << "\t-d,\t\tsearch the dictionary for provided regex\n"
-              << "\t-e,\t\tadd letter(s) to the rack\n"
-              << "\t-l,\t\tshow results having this many letters\n"
-              << "\t-r,\t\tletters in the rack\n"
-              << "\t-x,\t\tfilter results by provided regex\n"
-              << "\n";
-}
-// END show_usage()
+#include <sstream>
 
 
 // function not_implemented() print msg then exit
@@ -165,12 +142,12 @@ std::set<std::pair<std::string,int>> WWF::Words_Sorted(
 } // end Words_Sorted()
 
 
-// Words_Printed.
-void WWF::Words_Printed( std::set<std::pair<std::string,int>>& sorted)
-{
-    // Print the sorted value
-    for (auto& it : sorted ) {
-        std::cout << it.first << ' ' << it.second << "\n";
+// replace the Boost::Math::Factorial()
+int WWF::factorial( int n) {
+    int result = 1;
+    for (int i=1; i <=n ; i++ ) {
+        result *= i;
     }
+    return result;
 }
 

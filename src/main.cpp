@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <utility>
 #include <set>
+#include "options.hpp"
 
 // comparison function to sort the valid words by score
 /*
@@ -27,13 +28,20 @@ struct comp {
 
 
 int main(int argc, char *argv[])
+//int main(int argc, std::string* argv)
 {
     std::unordered_map<std::string,std::string> Options = {};
     
     // ingest_args() returns an unordered map of command line args and values
-    Options = WWF::ingest_args( argc, argv );
+//    Options = WWF::ingest_args( argc, argv );
+    Options = process_argv( argc, argv );
 
-//    std::cout << "Ingested arguments.\n";
+    std::cout << "Ingested arguments.\n";
+    /*
+    for ( auto elem : Options) {
+        std::cout << "Option: " << elem.first << ". Value: " << elem.second << ".\n";
+    }
+    */
 
     std::vector<std::string> Permutations;
     Permutations = WWF::create_permutations( Options );
