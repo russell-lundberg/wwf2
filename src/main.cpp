@@ -8,6 +8,7 @@
 #include <utility>
 #include <set>
 #include "options.hpp"
+#include <chrono>
 
 // comparison function to sort the valid words by score
 /*
@@ -24,12 +25,13 @@ struct comp {
     }
 };
 */
-
+auto start = std::chrono::system_clock::now();
 
 
 int main(int argc, char *argv[])
 //int main(int argc, std::string* argv)
 {
+
     std::unordered_map<std::string,std::string> Options = {};
     
     // ingest_args() returns an unordered map of command line args and values
@@ -88,20 +90,19 @@ int main(int argc, char *argv[])
     
     std::cout << "there are " << valid_words.size() << " valid words.\n";
 
-    // test for a regex filter
-    /*
-    if (Options["regex"]) {
-        // there is a regex option
-        std::cout << "main(): regex option value: " << Options["regex"] << ".\n";
-    }
-    */
-
+/*
     // display the inputted command line, for reference
     std::cout << "You entered: ";
     for ( int i = 0 ; i<= argc ; i++ ) {
         std::cout << argv[i] << " ";
     }
     std::cout << "\nEnd.\n";
+*/
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    float formatted = float( elapsed.count() ) / 1000.0;
+    std::printf("Elapsed time: %2.3f\n", formatted );
 
     return 0;
 }
