@@ -88,6 +88,15 @@ int main(int argc, char *argv[])
     
     std::cout << "there are " << valid_words.size() << " valid words.\n";
 
+    // test for a regex filter
+    /*
+    if (Options["regex"]) {
+        // there is a regex option
+        std::cout << "main(): regex option value: " << Options["regex"] << ".\n";
+    }
+    */
+
+    // display the inputted command line, for reference
     std::cout << "You entered: ";
     for ( int i = 0 ; i<= argc ; i++ ) {
         std::cout << argv[i] << " ";

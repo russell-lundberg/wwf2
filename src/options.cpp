@@ -143,8 +143,7 @@ void Option_Switch( int count, char** arg, int* j, std::unordered_map<std::strin
 
         // test if the next argument would overflow argv
         if ( *j+1 < count ) {
-            // there are more args, which could means letters submitted to -e.
-            // test if the next arg is an option
+            // there is at least one more argv element. Test if the next arg is an option
             if ( ! isOption( arg[*j+1] ) ) {
                 // letters were submitted to -e, so ingest them
                 // std::cout << "Option_Switch():" << arg[*j] << " returned value " << arg[*j+1] << ".\n";
@@ -154,6 +153,34 @@ void Option_Switch( int count, char** arg, int* j, std::unordered_map<std::strin
                 *j += 1;
             }
         }
+    }
+    else if ( strcmp(arg[*j],"-x") == 0 ){
+        // this is the regex option, that filters the valid words by matching this user-inputted regex. 
+        std::cout << "Option_Switch(): Option \"-x\" detected.\n";
+
+        // test if the next argument would overflow argv
+        if ( *j+1 >= count ) {
+            // thia means now value was submitted with the -x option. That's an error/
+            std::cout << "Option_Switch(): \"-x\" option requires a regex, exiting.\n";
+            show_usage("");
+            exit(1);
+        }
+
+        // test if the next arg is an option
+        if ( isOption( arg[*j+1] ) ) {
+            // this is also an error, because if the next argv element is an option, it again 
+            // means no regex was submitted with -x. That's an error.
+            std::cout << "Option_Switch(): \"-x\" option requires a regex, exiting.\n";
+            show_usage("");
+            exit(1);
+        }
+
+        std::cout << "Option_Switch: " << arg[*j] << " returned value " << arg[*j+1] << ".\n";
+
+        ( *n ).emplace( "regex", arg[*j+1] );
+        // increment j becaue the j+1 arg has already been used. Don't want 
+        // to use it in the for loop twice
+        *j += 1;
     }
     else if ( strcmp(arg[*j],"-b") == 0 ) {
         // std::cout << "Option_Switch(): option b loop index value is " << *j << "\n";
