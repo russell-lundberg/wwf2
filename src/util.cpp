@@ -51,7 +51,6 @@ std::set<std::string> WWF::get_dictionary() {
 
 }
 
-
 struct comp {
     template <typename T>
  
@@ -103,19 +102,13 @@ std::set<std::pair<std::string,int>> WWF::Words_Sorted(
 //    std::cout << "About to test regex.\n";
 
     options.count("regex") == 1 ? isRegex = true : isRegex = false;
-
-    if ( options.count("regex") == 1 ) {
-        isRegex = 1;
-        // this casts the std::string input to a std::regex
-        regex_input = std::regex( options.at("regex") );
-    }
-
-//    std::cout << "Tested regex.\n";
+    // std::cout << "Util::Words_Sorted(): isRegex = " << isRegex << "\n";
 
     for (auto& it : S) {
         // this prints the valid, sorted words to the screen
         std::cout << it.first << ' ' << it.second << "\n";
         if ( isRegex ) {
+            regex_input = std::regex( options.at("regex") );
             if ( std::regex_search(it.first, regex_input ) ) {
                 // long-ass process to cast an int to a string
                 std::stringstream stream;
@@ -127,17 +120,22 @@ std::set<std::pair<std::string,int>> WWF::Words_Sorted(
             }
         }
     }
-    if ( regex_matches.size() ) {
-        std::cout   << regex_matches.size() 
-                    << " words match your regex \"" 
-                    << options.at("regex")
-                    << "\"\n";
-    
-        for ( auto elem : regex_matches ) {
-            std::cout << elem << "\n";
+
+    if ( isRegex ) {
+
+        if ( regex_matches.size() ) {
+            std::cout   << regex_matches.size() 
+                        << " words match your regex \"" 
+                        << options.at("regex")
+                        << "\"\n";
+            for ( auto elem : regex_matches ) {
+                std::cout << elem << "\n";
+            }
+        }
+        else {
+            std::cout << "Words_Sorted(): no words match \"" << options.at("regex") << "\"\n";
         }
     }
-
     return return_value;
 } // end Words_Sorted()
 
