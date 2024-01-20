@@ -9,6 +9,7 @@
 #include <regex>
 #include <unordered_map>
 #include "options.hpp"
+#include <cstring>
 
 
 // function show_usage() print a message describing proper usage
@@ -109,7 +110,7 @@ void Option_Switch( int count, char** arg, int* j, std::unordered_map<std::strin
 {
     // std::cout << "Option_Switch(): Entry.\n";
     // save all the inputted letters in this string. It will be added to the map at the end
-    if ( strcmp(arg[*j],"-r") == 0 ) {
+    if ( std::strcmp(arg[*j],"-r") == 0 ) {
         // std::cout << "Option_Switch(): Option \"-r\" detected.\n";
 
         // test if the next argument would overflow argv
@@ -137,7 +138,7 @@ void Option_Switch( int count, char** arg, int* j, std::unordered_map<std::strin
         // to use it in the for loop twice
         *j += 1;
     }
-    else if ( strcmp(arg[*j],"-e") == 0 ) {
+    else if ( std::strcmp(arg[*j],"-e") == 0 ) {
         // allow -e to be present without having a value
         // std::cout << "Option_Switch(): Option \"-e\" detected.\n";
 
@@ -154,7 +155,7 @@ void Option_Switch( int count, char** arg, int* j, std::unordered_map<std::strin
             }
         }
     }
-    else if ( strcmp(arg[*j],"-x") == 0 ){
+    else if ( std::strcmp(arg[*j],"-x") == 0 ){
         // this is the regex option, that filters the valid words by matching this user-inputted regex. 
         std::cout << "Option_Switch(): Option \"-x\" detected.\n";
 
@@ -182,11 +183,11 @@ void Option_Switch( int count, char** arg, int* j, std::unordered_map<std::strin
         // to use it in the for loop twice
         *j += 1;
     }
-    else if ( strcmp(arg[*j],"-b") == 0 ) {
+    else if ( std::strcmp(arg[*j],"-b") == 0 ) {
         // std::cout << "Option_Switch(): option b loop index value is " << *j << "\n";
         ( *n ).insert({"blanks","blank1"});
     }
-    else if ( strcmp(arg[*j],"-B") == 0 ) {
+    else if ( std::strcmp(arg[*j],"-B") == 0 ) {
         // std::cout << "Option_Switch(): option B loop index value is " << *j << "\n";
         ( *n ).insert({"blanks","blank2"});
     }
@@ -204,7 +205,7 @@ bool isOption( char* value )
 {
     // std::cout << "isOption(): starting test.\n";
     // if the string is empty, the length is 1 for the null terminating char
-    if ( strlen(value) == 1 ) return false;
+    if ( std::strlen(value) == 1 ) return false;
 
     // std::cout << "isOption(): value has a value\n";
 

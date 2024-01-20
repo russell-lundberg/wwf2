@@ -1,5 +1,5 @@
-#include <iostream>
 #include <set>
+#include <iostream>
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -71,7 +71,7 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
     std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     if ( blanks > 0 ) {
     
-        int j = 0;
+//        int j = 0;
         for ( auto letter1 : alphabet ) {
             std::string tmp1 = letters + letter1;
             if ( blanks == 2 ) {
@@ -82,7 +82,7 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
                         perm_s.insert(elem);
                     }
 //                    std::cout << "tmp1.tmp2: " << tmp1 << "." << tmp2 << "\n";
-                    j++;
+//                    j++;
                 }
             }
             else {
@@ -149,10 +149,10 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
 
     // print the stats container
     std::map<int,int>::iterator pos;
-    int total = 0;
+//    int total = 0;
     for ( pos = stats.begin() ; pos != stats.end() ; pos++ ) {
        std::cout << pos->first << ": " << pos->second << "\n";
-       total += pos->second;
+//       total += pos->second;
     }
 //    std::cout << total << " permutations generated.\n";
 
