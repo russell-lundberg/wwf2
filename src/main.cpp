@@ -25,7 +25,7 @@ struct comp {
     }
 };
 */
-auto start = std::chrono::system_clock::now();
+auto start = std::chrono::high_resolution_clock::now();
 
 
 int main(int argc, char *argv[])
