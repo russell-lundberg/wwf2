@@ -32,7 +32,6 @@
 		46679E452B4ABA7500FB21C1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		46679E4D2B4ABB3600FB21C1 /* create_permutations.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = create_permutations.hpp; sourceTree = "<group>"; };
 		46679E4E2B4ABB3600FB21C1 /* options.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = options.hpp; sourceTree = "<group>"; };
-		46679E502B4ABB3600FB21C1 /* notboost.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = notboost.hpp; sourceTree = "<group>"; };
 		46679E512B4ABB3600FB21C1 /* util.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = util.hpp; sourceTree = "<group>"; };
 		46679E532B4ABC1300FB21C1 /* score_word.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = score_word.cpp; sourceTree = "<group>"; };
 		46679E542B4ABC1300FB21C1 /* create_permutations.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = create_permutations.cpp; sourceTree = "<group>"; };
@@ -90,7 +89,6 @@
 			isa = PBXGroup;
 			children = (
 				46679E4D2B4ABB3600FB21C1 /* create_permutations.hpp */,
-				46679E502B4ABB3600FB21C1 /* notboost.hpp */,
 				46679E4E2B4ABB3600FB21C1 /* options.hpp */,
 				46679E512B4ABB3600FB21C1 /* util.hpp */,
 			);
