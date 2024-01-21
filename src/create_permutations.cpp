@@ -71,7 +71,6 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
     std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     if ( blanks > 0 ) {
     
-//        int j = 0;
         for ( auto letter1 : alphabet ) {
             std::string tmp1 = letters + letter1;
             if ( blanks == 2 ) {
@@ -81,8 +80,6 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
                     for ( auto elem : this_time ) {
                         perm_s.insert(elem);
                     }
-//                    std::cout << "tmp1.tmp2: " << tmp1 << "." << tmp2 << "\n";
-//                    j++;
                 }
             }
             else {
@@ -102,8 +99,7 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
 
     std::cout << perm_s.size() << " substrings generated.\n";
 
-    // loop through all substrings feeding each to 
-    // all_permutations().
+    // loop through all substrings, feeding each to all_permutations().
     std::set<std::string>::iterator itr;
     for ( itr = perm_s.begin(); itr != perm_s.end(); itr++  ) {
         std::vector<std::string> wordlist;
@@ -145,7 +141,7 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
         stats[ elem.size() ] += 1;
     }
 
-    std::cout << "\n";
+    // std::cout << "\n";
 
     // print the stats container
     std::map<int,int>::iterator pos;
@@ -171,10 +167,7 @@ std::string permutation( std::string word, int perm_idx )
     int fact = WWF::factorial( int(length) );
 
     if ( perm_idx >=  fact || perm_idx < 0 )
-    {
-//        std::cout << "permutations::invalid perm_index: " << perm_idx << "\n";
         return "";
-    }
 
     fact = WWF::factorial( int ( length - 1 ) );
 
@@ -206,7 +199,7 @@ std::vector<std::string> all_permutations( std::string letters )
         std::string temp;
         temp = WWF::permutation( letters, i );
         // print all permutations
-//        std::cout << i << ": " << temp << "\n";
+        // std::cout << i << ": " << temp << "\n";
         permutations.push_back( temp );
     }
     return permutations;
