@@ -37,28 +37,7 @@ void show_usage( std::string name ) {
 
 
 
-// 
-/*
-std::unordered_map<std::string,std::string> ingest_args( int argc, char* argv[]) {
-    //std::vector<std::string> WWF::ingest_args( int argc, char* argv[]) {
-    
-    // only silencing a preprocessor warning
-    int zip = argc;
-    zip = 0;
-
-    std::string nothing = "";
-    
-    // store variables in a unordered_map container return value
-    std::unordered_map<std::string,std::string> arg;
-    
-    
-    
-    return arg;
-} // end ingest::args()
-*/
-
-
-// unordered_map process_argv( argv )
+// process_argv(). read through all inpuitted args and map them to functionality.
 std::unordered_map<std::string,std::string> process_argv( int argc, char* argv[] ) {
     
 //    std::cout << argc << " args received.\n";
@@ -75,7 +54,7 @@ std::unordered_map<std::string,std::string> process_argv( int argc, char* argv[]
         return options;
     }
     
-    // loop through all argv element looking for optionsa and values
+    // loop through all argv element looking for options and values
     // argv[0] is the program name
     // to refactor this create a function that tests for each defined option,
     // and does the right thing with each one
@@ -90,7 +69,7 @@ std::unordered_map<std::string,std::string> process_argv( int argc, char* argv[]
         Option_Switch( argc, argv, idx, ptr );
     } // end for loop
 
-    std::cout << "All options processed.\n";
+    // std::cout << "All options processed.\n";
 
 /*
     // just as a check, print the options
@@ -157,7 +136,7 @@ void Option_Switch( int count, char** arg, int* j, std::unordered_map<std::strin
     }
     else if ( std::strcmp(arg[*j],"-x") == 0 ){
         // this is the regex option, that filters the valid words by matching this user-inputted regex. 
-        std::cout << "Option_Switch(): Option \"-x\" detected.\n";
+        // std::cout << "Option_Switch(): Option \"-x\" detected.\n";
 
         // test if the next argument would overflow argv
         if ( *j+1 >= count ) {
@@ -176,7 +155,7 @@ void Option_Switch( int count, char** arg, int* j, std::unordered_map<std::strin
             exit(1);
         }
 
-        std::cout << "Option_Switch: " << arg[*j] << " returned value " << arg[*j+1] << ".\n";
+        // std::cout << "Option_Switch: " << arg[*j] << " returned value " << arg[*j+1] << ".\n";
 
         ( *n ).emplace( "regex", arg[*j+1] );
         // increment j becaue the j+1 arg has already been used. Don't want 
