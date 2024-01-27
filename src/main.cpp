@@ -17,8 +17,8 @@
 #include "options.hpp"
 #include <chrono>
 // dictionary testing
-#include <filesystem>
-namespace fs = std::filesystem;
+//#include <filesystem>
+// namespace fs = std::filesystem;
 
 
 
@@ -46,11 +46,13 @@ int main(int argc, char *argv[])
 
     std::unordered_map<std::string,std::string> Options = {};
     
+    /*
     // dictionary testing
     const fs::path home(".");
     std::cout << "directory_iterator:\n";
     for ( auto const& dir_entry : fs::directory_iterator{home})
         std::cout << dir_entry.path() << "\n";
+    */
 
     
     // ingest_args() returns an unordered map of command line args and values
