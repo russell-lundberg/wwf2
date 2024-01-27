@@ -1,23 +1,25 @@
 //
-//  options.hpp.h
+//  Options.hpp.h
 //  wwf4
 //
 //  Created by Russell Lundberg on 12/21/23.
 //
 
-#ifndef options_hpp_h
-#define options_hpp_h
+#ifndef OPTIONS_HPP
+#define OPTIONS_HPP
 
 
 #include <string>
 #include <unordered_map>
 
 namespace Options {
+
 void show_usage( std::string );
 
 std::unordered_map<std::string,std::string> process_argv( int, char** );
 
 void Option_Switch( int, char**, int*, std::unordered_map<std::string,std::string>* );
+
 }
 
 //void show_usage(std::string );
@@ -39,4 +41,4 @@ std::string str_tolower(std::string s);
 //void Option_Switch( int, char**, int*, std::unordered_map<std::string,std::string>* );
 
 
-#endif /* options_hpp_h */
+#endif /* OPTIONS_HPP */

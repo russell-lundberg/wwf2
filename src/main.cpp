@@ -8,13 +8,14 @@
 #include <iostream>
 #include <string>
 #include <fstream> // get_dictionary()
-#include "create_permutations.hpp"
-#include "util.hpp"
+#include "Permute.hpp"
+#include "Util.hpp"
 #include <map>
 #include <unordered_map>
 #include <utility>
 #include <set>
-#include "options.hpp"
+#include "Options.hpp"
+#include "Words.hpp"
 #include <chrono>
 // dictionary testing
 //#include <filesystem>
@@ -37,12 +38,11 @@ struct comp {
     }
 };
 */
-auto start = std::chrono::high_resolution_clock::now();
 
 
 int main(int argc, char *argv[])
-//int main(int argc, std::string* argv)
 {
+    auto start = std::chrono::high_resolution_clock::now();
 
     std::unordered_map<std::string,std::string> Options = {};
     
@@ -58,8 +58,6 @@ int main(int argc, char *argv[])
     // ingest_args() returns an unordered map of command line args and values
     Options = Options::process_argv( argc, argv );
 
-    // std::cout << "Ingested arguments.\n";
-    
     /*
     for ( auto elem : Options) {
         std::cout << "main() Options: " << elem.first << ". Value: " << elem.second << ".\n";
@@ -67,7 +65,8 @@ int main(int argc, char *argv[])
     */
 
     std::vector<std::string> Permutations;
-    Permutations = WWF::create_permutations( Options );
+
+    Permutations = Permute::Create( Options );
     
     //    std::cout << "created permutations.\n";
 
@@ -100,7 +99,7 @@ int main(int argc, char *argv[])
     // score all the dictionary words in a map container
     std::map<std::string,int> Scored_Words;
     for ( auto elem : valid_words ) {
-        std::map<std::string,int> Scored_Word = WWF::Score_Word( elem );
+        std::map<std::string,int> Scored_Word = Words::Score_Word( elem );
         Scored_Words.insert( Scored_Word.begin(), Scored_Word.end() );
     }
 
@@ -108,7 +107,7 @@ int main(int argc, char *argv[])
 
     // sort the scored words by ascending score
     std::set<std::pair<std::string,int>> sorted_words;
-    sorted_words = WWF::Words_Sorted( Scored_Words, Options );
+    sorted_words = Words::Sorted( Scored_Words, Options );
     
     std::cout << "there are " << valid_words.size() << " valid words.\n";
 

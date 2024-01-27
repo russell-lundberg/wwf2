@@ -1,9 +1,10 @@
-//
-//  create_permutations.cpp
-//  wwf4
-//
-//  Created by Russell Lundberg on 1/24/24.
-//
+/*
+*  Permute.cpp
+*  wwf2
+*
+*  Created by Russell Lundberg on 10/24/23.
+* all functions are in the Permute:: namespace
+*/
 
 
 #include <set>
@@ -11,32 +12,35 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
-#include "create_permutations.hpp"
-#include "util.hpp"
+#include "Permute.hpp"
+#include "Util.hpp"
 #include <map>
 #include <unordered_map>
 #include <cstring>
 
+
+namespace Permute {
 
 bool cmp(const std::string lhs, const std::string rhs) {
    return lhs.size() > rhs.size();
 }
 
 
-namespace WWF {
-
-std::vector<std::string> create_permutations( std::unordered_map<std::string,std::string> options )
+/*
+* Permute::Create
+*/
+std::vector<std::string> Create( std::unordered_map<std::string,std::string> options )
 {
 //    std::cout << "create_Permutations(): starting.\n";
 
     if ( options.empty() ) {
-        std::cout << "options arg was empty";
+        std::cout << "Permute::Create(): options arg was empty";
         exit(99);
     }
 
     /*
     for ( auto elem : options) {
-        std::cout << "create_permutations(): Option=" << elem.first << ". Value: " << elem.second << ".\n";
+        std::cout << "Permute::Create(): Option=" << elem.first << ". Value: " << elem.second << ".\n";
     }
     */
 
@@ -68,7 +72,6 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
     // the map values were type
     int blanks = 0;
 
-//    if (auto search = options.find("blanks"); search != options.end()) {
     if ( options.find("blanks") != options.end() ) {
 
         // std::cout << "Found " << search->first << ' ' << search->second << '\n';
@@ -87,7 +90,7 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
             // std::cout << "main() blanks chk: " << blanks << "\n";
         }
         else {
-            std::cout << "Create_Permutations(): unexpected value for blanks: "
+            std::cout << "Permute::Create(): unexpected value for blanks: "
                 << options.at("blanks") << ", exiting 97.\n";
             exit(97);
         }
@@ -103,14 +106,14 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
             if ( blanks == 2 ) {
                 for ( auto letter2 : alphabet ) {
                     std::string tmp2 = tmp1 + letter2;
-                    std::set<std::string> this_time = WWF::all_substrings_s( tmp2 );
+                    std::set<std::string> this_time = Permute::all_substrings_s( tmp2 );
                     for ( auto elem : this_time ) {
                         perm_s.insert(elem);
                     }
                 }
             }
             else {
-                std::set<std::string> this_time = WWF::all_substrings_s( tmp1 );
+                std::set<std::string> this_time = Permute::all_substrings_s( tmp1 );
                 for ( auto elem : this_time ) {
                     perm_s.insert(elem);
                     // std::cout << "elem: " << elem << "\n";
@@ -121,7 +124,7 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
         // std::cout << j << " loops processed\n.";
     }
     else {
-        perm_s = WWF::all_substrings_s( letters );
+        perm_s = Permute::all_substrings_s( letters );
     }
 
     std::cout << perm_s.size() << " substrings generated.\n";
@@ -130,7 +133,7 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
     std::set<std::string>::iterator itr;
     for ( itr = perm_s.begin(); itr != perm_s.end(); itr++  ) {
         std::vector<std::string> wordlist;
-        wordlist = WWF::all_permutations( *itr );
+        wordlist = Permute::all_permutations( *itr );
         for ( auto elem : wordlist ) {
             if (elem.size() == 0 ) continue;
             final_s.insert(elem);
@@ -158,7 +161,7 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
     // now sort the vector by string length
     std::sort(words.begin(),
               words.end(),
-              cmp );
+              Permute::cmp );
 
     // this loop prints the unique permutations by
     // descending length, and populates the stats hash
@@ -172,15 +175,12 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
 
     // print the stats container
     std::map<int,int>::iterator pos;
-//    int total = 0;
     for ( pos = stats.begin() ; pos != stats.end() ; pos++ ) {
        std::cout << pos->first << ": " << pos->second << "\n";
-//       total += pos->second;
     }
-//    std::cout << total << " permutations generated.\n";
 
     return words;
-} // end Create_Permutations()
+} // end Permute::Create()
 
 
 std::string permutation( std::string word, int perm_idx )
@@ -190,13 +190,12 @@ std::string permutation( std::string word, int perm_idx )
 
     unsigned long int length = word.size() ;
 
-    // replace Boost::Math::Factorial()
-    int fact = WWF::factorial( int(length) );
+    int fact = Util::factorial( int(length) );
 
     if ( perm_idx >=  fact || perm_idx < 0 )
         return "";
 
-    fact = WWF::factorial( int ( length - 1 ) );
+    fact = Util::factorial( int ( length - 1 ) );
 
     int current_idx = perm_idx / fact;
 
@@ -207,7 +206,7 @@ std::string permutation( std::string word, int perm_idx )
     word = word.replace(current_idx, 1, "");
 
     std::string more_letters;
-    more_letters =  WWF::permutation( word, rest);
+    more_letters =  Permute::permutation( word, rest);
     std::string many_letters = first_letter + more_letters;
     return many_letters;
 }
@@ -219,12 +218,12 @@ std::vector<std::string> all_permutations( std::string letters )
     std::vector<std::string> permutations;
 
     int fact = 0;
-    fact = WWF::factorial( int ( letters.size() ) );
+    fact = Util::factorial( int ( letters.size() ) );
 
     for ( double i = 0 ; i <= fact ; i++ )
     {
         std::string temp;
-        temp = WWF::permutation( letters, i );
+        temp = Permute::permutation( letters, i );
         // print all permutations
         // std::cout << i << ": " << temp << "\n";
         permutations.push_back( temp );
@@ -257,7 +256,7 @@ std::set<std::string> all_substrings_s (std::string letters )
         // can remove the char here or at end of loop
         letters.erase(0,1);
 
-        this_loop = WWF::all_substrings_s( letters );
+        this_loop = Permute::all_substrings_s( letters );
         for ( auto elem : this_loop ) {
             subs_s.insert( before + elem );
         }

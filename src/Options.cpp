@@ -9,7 +9,7 @@
 #include <iostream>
 #include <regex>
 #include <unordered_map>
-#include "options.hpp"
+#include "Options.hpp"
 #include <cstring>
 
 
