@@ -1,12 +1,19 @@
-#ifndef CREATE_PERMUTATIONS
-#define CREATE_PERMUTATIONS
+//
+//  create_permutations.hpp
+//  wwf4
+//
+//  Created by Russell Lundberg on 1/24/24.
+//
+
+#ifndef create_permutions_h
+#define create_permutions_h
 
 #include <vector>
 #include <string>
 #include <set>
 #include <unordered_map>
 
-namespace WWF 
+namespace WWF
 
 {
 
@@ -25,4 +32,5 @@ std::set<std::string> all_substrings_s( std::string letters );
 
 }
 
-#endif
+
+#endif /* create_permutions_h */

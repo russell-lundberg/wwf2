@@ -1,10 +1,24 @@
-#ifndef UTIL_LIB
-#define UTIL_LIB
+//
+//  util.hpp
+//  wwf2
+//
+//  Created by Russell Lundberg on 1/24/24.
+//
+
+#ifndef util_h
+#define util_h
+
 #include <string>
 #include <vector>
 #include <set>
 #include <map>
 #include <unordered_map>
+
+namespace Util {
+
+std::set<std::string> get_dictionary();
+
+}
 
 namespace WWF {
 
@@ -12,8 +26,6 @@ namespace WWF {
 void show_usage(std::string );
 
 void not_implemented(std::string );
-
-std::set<std::string> get_dictionary();
 
 std::map<char,int> LetterScores();
 //std::map<std::string,int> LetterScores();
@@ -33,4 +45,5 @@ int factorial( int );
 
 } // close namespace declaration
 
-#endif
+
+#endif /* util_h */

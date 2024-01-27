@@ -1,3 +1,10 @@
+//
+//  main.cpp
+//  wwf4
+//
+//  Created by Russell Lundberg on 1/24/24.
+//
+
 #include <iostream>
 #include <string>
 #include <fstream> // get_dictionary()
@@ -9,6 +16,11 @@
 #include <set>
 #include "options.hpp"
 #include <chrono>
+// dictionary testing
+#include <filesystem>
+namespace fs = std::filesystem;
+
+
 
 // comparison function to sort the valid words by score
 /*
@@ -34,24 +46,32 @@ int main(int argc, char *argv[])
 
     std::unordered_map<std::string,std::string> Options = {};
     
+    // dictionary testing
+    const fs::path home(".");
+    std::cout << "directory_iterator:\n";
+    for ( auto const& dir_entry : fs::directory_iterator{home})
+        std::cout << dir_entry.path() << "\n";
+
+    
     // ingest_args() returns an unordered map of command line args and values
-//    Options = WWF::ingest_args( argc, argv );
-    Options = process_argv( argc, argv );
+    Options = Options::process_argv( argc, argv );
 
     // std::cout << "Ingested arguments.\n";
+    
     /*
     for ( auto elem : Options) {
-        std::cout << "Option: " << elem.first << ". Value: " << elem.second << ".\n";
+        std::cout << "main() Options: " << elem.first << ". Value: " << elem.second << ".\n";
     }
     */
 
     std::vector<std::string> Permutations;
     Permutations = WWF::create_permutations( Options );
-
-//    std::cout << "created permutations.\n";
+    
+    //    std::cout << "created permutations.\n";
 
     // return the dictionary file as a SET container
-    std::set<std::string> Dictionary = WWF::get_dictionary();
+    std::set<std::string> Dictionary = Util::get_dictionary();
+
 
 //    std::cout << "Loaded dictionary.\n";
 
@@ -65,7 +85,7 @@ int main(int argc, char *argv[])
     for ( auto word : Permutations ) {
         // must find the word in lower case
         std::string word_lower = {};
-        for ( const char ch : word ) { 
+        for ( const char ch : word ) {
             word_lower += std::tolower(ch, std::locale());
         }
         if ( Dictionary.find(word_lower) != Dictionary.end() ) {
@@ -106,3 +126,4 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+

@@ -1,3 +1,10 @@
+//
+//  util.cpp
+//  wwf4
+//
+//  Created by Russell Lundberg on 1/24/24.
+//
+
 #include <iostream>
 #include <fstream>
 #include <set>
@@ -6,7 +13,6 @@
 #include <regex>
 #include <sstream>
 
-
 // function not_implemented() print msg then exit
 void WWF::not_implemented(std::string option) {
     std::cerr << "Option " << option << " has not yet been implemented.\n";
@@ -14,21 +20,34 @@ void WWF::not_implemented(std::string option) {
 } // END not_implemented()
 
 
-// function get_dictionary() return a pointer to the dictionary file
-std::set<std::string> WWF::get_dictionary() {
+/*
+ *
+* function get_dictionary() return a pointer to the dictionary file
+*
+ */
+std::set<std::string> Util::get_dictionary() {
 
     // perl calls this a file handle, fh
     std::ifstream fh;
 
     // name the dictionary file to open
-    const std::string fname = "/home/lundberg/Downloads/enable1.txt";
+//    const std::string fname = "/home/lundberg/Downloads/enable1.txt";
+    const std::string fname = "dictionary.txt";
+
 
     // open the file handle
-    fh.open(fname, std::ios::in);
+    try {
+        fh.open(fname, std::ios::in);
+    }
+    catch (std::exception &e)
+       {
+           std::cout << " Util::get_dictionary(): " << e.what() << "\n";
+    }
 
     // did it open? alert and exit if not
     if ( ! fh ) {
-        std::cerr << "error opening " << fname << " for read.\n";
+        std::cerr << "error opening " << fname << " for read (89).\n";
+        exit(89);
     }
 
     // declare the SET to hold all dictionary words
@@ -82,10 +101,10 @@ void WWF::sort(std::map<std::string, int>& M)
 } // end sort()
 
 
-// sort by value the permutations which were found in the dictionary. Pardon the 
+// sort by value the permutations which were found in the dictionary. Pardon the
 // lame regex workaround
 std::set<std::pair<std::string,int>> WWF::Words_Sorted(
-            std::map<std::string, int>& M, 
+            std::map<std::string, int>& M,
             std::unordered_map<std::string,std::string> options )
 {
     // Declare set of pairs and insert
@@ -101,7 +120,11 @@ std::set<std::pair<std::string,int>> WWF::Words_Sorted(
 
 //    std::cout << "About to test regex.\n";
 
-    options.count("regex") == 1 ? isRegex = true : isRegex = false;
+//    options.count("regex") == 1 ? isRegex = true : isRegex = false;
+    if (options.find("regex") != options.end() ) {
+        isRegex = true;
+    }
+    
     // std::cout << "Util::Words_Sorted(): isRegex = " << isRegex << "\n";
 
     for (auto& it : S) {
@@ -124,8 +147,8 @@ std::set<std::pair<std::string,int>> WWF::Words_Sorted(
     if ( isRegex ) {
 
         if ( regex_matches.size() ) {
-            std::cout   << regex_matches.size() 
-                        << " words match your regex \"" 
+            std::cout   << regex_matches.size()
+                        << " words match your regex \""
                         << options.at("regex")
                         << "\"\n";
             for ( auto elem : regex_matches ) {

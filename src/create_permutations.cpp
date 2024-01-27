@@ -1,3 +1,11 @@
+//
+//  create_permutations.cpp
+//  wwf4
+//
+//  Created by Russell Lundberg on 1/24/24.
+//
+
+
 #include <set>
 #include <iostream>
 #include <algorithm>
@@ -23,7 +31,7 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
 
     if ( options.empty() ) {
         std::cout << "options arg was empty";
-        exit(1);
+        exit(99);
     }
 
     /*
@@ -32,8 +40,19 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
     }
     */
 
+    std::string letters = "";
+    
+    if ( options.find("lettersIn") != options.end() ) {
+        letters = options.at("lettersIn");
+    }
+    else {
+        // for now, exit without any letters in. There may be future options
+        // that will not require letters
+        std::cout << "Create_Permutations(): no lettersIn: , exiting 98.\n";
+        exit(98);
+    }
 
-    std::string letters = options.at("lettersIn");
+    // std::string letters = options.at("lettersIn");
 
     // std::cout << "Create_Permutations(): lettersIn: " << letters << ".\n";
 
@@ -49,24 +68,32 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
     // the map values were type
     int blanks = 0;
 
-    // if ( options.at("blanks") == "blank1")  
-    if (auto search = options.find("blanks"); search != options.end()) {
+//    if (auto search = options.find("blanks"); search != options.end()) {
+    if ( options.find("blanks") != options.end() ) {
+
         // std::cout << "Found " << search->first << ' ' << search->second << '\n';
 
-        if ( options.at("blanks") == "blank1") {
+        if ( options.at("blanks") == "blank1" ) {
             blanks = 1;
             // std::cout << "main() blanks chk: " << blanks << "\n";
         }
+        else if ( options.at("blanks") == "blank2") {
+
 
     // std::cout << "Create_Permutations(): tested blank1.\n";
 
-        if ( options.at("blanks") == "blank2") {
+        //if ( options.at("blanks") == "blank2") {
             blanks = 2;
             // std::cout << "main() blanks chk: " << blanks << "\n";
         }
+        else {
+            std::cout << "Create_Permutations(): unexpected value for blanks: "
+                << options.at("blanks") << ", exiting 97.\n";
+            exit(97);
+        }
     }
 
-    // all uppercase to distinguish "blank" letter from letters having 
+    // all uppercase to distinguish "blank" letter from letters having
     // non-zero value
     std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     if ( blanks > 0 ) {
@@ -94,7 +121,7 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
         // std::cout << j << " loops processed\n.";
     }
     else {
-                perm_s = WWF::all_substrings_s( letters );
+        perm_s = WWF::all_substrings_s( letters );
     }
 
     std::cout << perm_s.size() << " substrings generated.\n";
@@ -117,7 +144,7 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
 
     // unsigned long int is the implicit type of "size_type".
     // needed here to silence a warning
-    for ( unsigned long int i = 1 ; i <= letters.size() ; i++ ) {
+    for ( int i = 1 ; i <= int( letters.size() ) ; i++ ) {
         stats[i] = 0;
     }
 
@@ -136,9 +163,9 @@ std::vector<std::string> create_permutations( std::unordered_map<std::string,std
     // this loop prints the unique permutations by
     // descending length, and populates the stats hash
     for ( auto elem : words) {
-        // printf() wants a char type for strings. So 
+        // printf() wants a char type for strings. So
         // elem must be converted using cstring library
-        stats[ elem.size() ] += 1;
+        stats[ int( elem.size() ) ] += 1;
     }
 
     // std::cout << "\n";
@@ -186,7 +213,7 @@ std::string permutation( std::string word, int perm_idx )
 }
 
 
-std::vector<std::string> all_permutations( std::string letters ) 
+std::vector<std::string> all_permutations( std::string letters )
 {
 
     std::vector<std::string> permutations;
@@ -206,7 +233,7 @@ std::vector<std::string> all_permutations( std::string letters )
 }
 
 
-std::set<std::string> all_substrings_s (std::string letters ) 
+std::set<std::string> all_substrings_s (std::string letters )
 {
     std::set<std::string> subs_s;
     subs_s.insert(letters);
@@ -219,7 +246,7 @@ std::set<std::string> all_substrings_s (std::string letters )
 
     std::string before;
 
-    // assign the first remaining char to current, then 
+    // assign the first remaining char to current, then
     // delete that char from letters
     std::string current = letters.substr(0,1);
 

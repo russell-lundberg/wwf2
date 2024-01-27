@@ -1,3 +1,10 @@
+//
+//  score_word.cpp
+//  wwf4
+//
+//  Created by Russell Lundberg on 1/24/24.
+//
+
 #include "util.hpp"
 #include <map>
 #include <iostream>
@@ -15,8 +22,8 @@ std::map<std::string,int> WWF::Score_Word ( std::string word )
 
     // loop though all the letters of the input. If upper case, value is zero,
     // so no need to add to the Sum
-    for ( const char ch : word ) { 
-        // Print current character 
+    for ( const char ch : word ) {
+        // Print current character
         if ( isupper( ch )  ) {
             scored_word += std::tolower(ch, std::locale());
             // letter value derived from a blank is zero

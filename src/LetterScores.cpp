@@ -1,3 +1,10 @@
+//
+//  LetterScores.cpp
+//  wwf2
+//
+//  Created by Russell Lundberg on 1/24/24.
+//
+
 #include <iostream>
 #include <string>
 #include <map>
@@ -7,7 +14,7 @@
 /*
  * this works to load the letters with their assigned values.
  * it uses an unordered_map as an associative array
- * 
+ *
  * It might be more sensible to use an ordered map. IDK.
  * Russell Lundberg. 20231103
  */
@@ -17,8 +24,8 @@ namespace WWF {
 //unordered_map assign_letter_scores () {
 std::map<char,int> LetterScores() {
 
-//	std::map<std::string,int> LetterScore;
-	std::map<char,int>LetterScore;
+//    std::map<std::string,int> LetterScore;
+    std::map<char,int>LetterScore;
 
 //    LetterScore.insert(std::make_pair("blank",0));
     LetterScore.emplace(std::pair<char,int>('a',1));
@@ -50,9 +57,9 @@ std::map<char,int> LetterScores() {
 
     /*
     for ( const auto& elem : LetterScore ) {
-	    std::cout << "Tile: " << elem.first
-		    << ", Value: " << elem.second
-		    << "\n";
+        std::cout << "Tile: " << elem.first
+            << ", Value: " << elem.second
+            << "\n";
     }
     */
 
