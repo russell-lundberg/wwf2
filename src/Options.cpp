@@ -24,11 +24,12 @@ void Options::show_usage( std::string name ) {
     }
     std::cerr << msg
               << "Options:\n"
-              << "\t-h,--help\t\tShow this help message\n"
-              << "\t-b,\t\thand contains a blank tile\n"
-              << "\t-B,\t\thand contains 2 blank tiles\n"
+              << "\t-h,--help\tShow this help message and exit\n"
+              << "\t-b,\t\track contains a blank tile\n"
+              << "\t-B,\t\track contains 2 blank tiles\n"
               << "\t-d,\t\tsearch the dictionary for provided regex\n"
-              << "\t-e,\t\tadd letter(s) to the rack\n"
+              << "\t-e,\t\textend rack with letters\n"
+              << "\t-E,\t\textend and filter using letters as entered\n"
               << "\t-l,\t\tshow results having this many letters\n"
               << "\t-r,\t\tletters in the rack\n"
               << "\t-x,\t\tfilter results by provided regex\n"
@@ -146,7 +147,7 @@ void Options::Option_Switch( int count, char** arg, int* j, std::unordered_map<s
 
         // test if the next argument would overflow argv
         if ( *j+1 >= count ) {
-            // thia means now value was submitted with the -x option. That's an error/
+            // this means no value submitted with the -x option. That's an error/
             std::cout << "Option_Switch(): \"-x\" option requires a regex, exiting (77).\n";
             Options::show_usage("");
             exit(77);
@@ -163,6 +164,37 @@ void Options::Option_Switch( int count, char** arg, int* j, std::unordered_map<s
 
         // std::cout << "Option_Switch: " << arg[*j] << " returned value " << arg[*j+1] << ".\n";
 
+        ( *n ).emplace( "regex", arg[ *j+1 ] );
+        // increment j becaue the j+1 arg has already been used. Don't want
+        // to use it in the for loop twice
+        *j += 1;
+    }
+    else if ( std::strcmp(arg[ *j ],"-E") == 0 ){
+        // this combines -e and -x, to look for multi-letter contiguous 
+        // patterns in the wordlist, like -r <letters> -e ab -x ab.
+        // For example -r abcd -E ef would match "def" but not "fed"
+        std::cout << "Option_Switch(): Option \"-E\" detected.\n";
+
+        // test if the next argument would overflow argv
+        if ( *j+1 >= count ) {
+            // this means no value was submitted with the -E option. That's an error/
+            std::cout << "Option_Switch(): \"-E\" option requires string, exiting (77).\n";
+            Options::show_usage("");
+            exit(77);
+        }
+
+        // test if the next arg is an option
+        if ( isOption( arg[ *j+1 ] ) ) {
+            // this is also an error, because if the next argv element is an option, it again
+            // means no string was submitted with -E. That's an error.
+            std::cout << "Option_Switch(): \"-E\" option requires a string, exiting (76).\n";
+            Options::show_usage("");
+            exit(76);
+        }
+
+        // std::cout << "Option_Switch: " << arg[*j] << " returned value " << arg[*j+1] << ".\n";
+
+        ( *n ).emplace( "extend", arg[ *j+1 ] );
         ( *n ).emplace( "regex", arg[ *j+1 ] );
         // increment j becaue the j+1 arg has already been used. Don't want
         // to use it in the for loop twice
